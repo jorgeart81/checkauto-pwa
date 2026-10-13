@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { HomePage } from './pages/home-page/home-page';
 
 export const routes: Routes = [
   {
@@ -8,8 +9,7 @@ export const routes: Routes = [
   },
   {
     path: 'home',
-    loadComponent: () =>
-      import('./components/tabs/tab-inicio.component').then((m) => m.TabInicioComponent),
+    component: HomePage,
   },
   {
     path: 'plan',
