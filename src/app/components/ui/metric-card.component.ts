@@ -14,7 +14,9 @@ import { Component, input } from '@angular/core';
       </div>
 
       <div class="flex items-baseline gap-1">
-        <span class="text-2xl font-extrabold text-white font-mono tracking-tight">{{ value() }}</span>
+        <span class="text-2xl font-extrabold text-white font-mono tracking-tight">{{
+          value()
+        }}</span>
         @if (unit()) {
           <span class="text-xs font-bold text-indigo-400 font-mono">{{ unit() }}</span>
         }

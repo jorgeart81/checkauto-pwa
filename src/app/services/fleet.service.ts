@@ -260,9 +260,7 @@ export class FleetService {
     const v = this.activeVehicle();
     if (!v) return { val: 0, unit: 'km' };
     const altVal =
-      v.unit === 'mi'
-        ? Math.round(v.odometer * 1.60934)
-        : Math.round(v.odometer * 0.621371);
+      v.unit === 'mi' ? Math.round(v.odometer * 1.60934) : Math.round(v.odometer * 0.621371);
     return {
       val: altVal,
       unit: v.secondaryUnit,
@@ -290,14 +288,11 @@ export class FleetService {
 
   updateOdometer(vehicleId: string, newOdometer: number): void {
     this.fleet.update((list) =>
-      list.map((v) => (v.id === vehicleId ? { ...v, odometer: newOdometer } : v))
+      list.map((v) => (v.id === vehicleId ? { ...v, odometer: newOdometer } : v)),
     );
   }
 
-  addLogEntry(
-    vehicleId: string,
-    entry: { type: string; odometer?: number; cost?: number }
-  ): void {
+  addLogEntry(vehicleId: string, entry: { type: string; odometer?: number; cost?: number }): void {
     if (entry.odometer) {
       const current = this.fleet().find((v) => v.id === vehicleId);
       if (current && entry.odometer > current.odometer) {

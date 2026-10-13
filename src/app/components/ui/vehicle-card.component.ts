@@ -9,13 +9,21 @@ import { UiBadgeComponent } from './ui-badge.component';
   template: `
     <div
       class="p-4 rounded-2xl border transition-all duration-200"
-      [class]="isSelected() ? 'bg-indigo-950/20 border-indigo-500/50 shadow-md' : 'bg-slate-900 border-slate-800 hover:border-slate-700'"
+      [class]="
+        isSelected()
+          ? 'bg-indigo-950/20 border-indigo-500/50 shadow-md'
+          : 'bg-slate-900 border-slate-800 hover:border-slate-700'
+      "
     >
       <div class="flex items-start justify-between">
         <div class="flex items-center gap-3">
           <div
             class="w-10 h-10 rounded-xl flex items-center justify-center border"
-            [class]="isSelected() ? 'bg-indigo-600 text-white border-indigo-400' : 'bg-slate-800 text-slate-300 border-slate-700'"
+            [class]="
+              isSelected()
+                ? 'bg-indigo-600 text-white border-indigo-400'
+                : 'bg-slate-800 text-slate-300 border-slate-700'
+            "
           >
             <app-icon [name]="vehicle().type" [size]="20" />
           </div>

@@ -10,7 +10,9 @@ import { VehicleCardComponent } from '../ui/vehicle-card.component';
   template: `
     <div class="px-4 space-y-4 pt-2">
       <!-- Fleet Summary Banner -->
-      <div class="bg-gradient-to-r from-slate-900 via-indigo-950/40 to-slate-900 rounded-2xl p-4 border border-slate-800">
+      <div
+        class="bg-gradient-to-r from-slate-900 via-indigo-950/40 to-slate-900 rounded-2xl p-4 border border-slate-800"
+      >
         <div class="flex items-center justify-between">
           <div>
             <span class="text-[10px] font-bold text-indigo-400 uppercase tracking-wider font-mono">
@@ -77,9 +79,6 @@ export class TabGarajeComponent {
   }
 
   protected onAddVehicle(): void {
-    this.toastService.show(
-      'Asistente de nueva unidad: introduce VIN o escanea código QR',
-      'info'
-    );
+    this.toastService.show('Asistente de nueva unidad: introduce VIN o escanea código QR', 'info');
   }
 }

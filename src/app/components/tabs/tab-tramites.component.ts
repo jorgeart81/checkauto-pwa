@@ -18,12 +18,18 @@ import { UiBadgeComponent } from '../ui/ui-badge.component';
           <h2 class="text-base font-bold text-white">Documentos & Trámites</h2>
         </div>
 
-        <div class="flex items-center bg-slate-900 border border-slate-800 rounded-lg p-0.5 text-xs">
+        <div
+          class="flex items-center bg-slate-900 border border-slate-800 rounded-lg p-0.5 text-xs"
+        >
           <button
             type="button"
             (click)="setFilter('active')"
             class="px-2.5 py-1 rounded-md transition-all font-semibold"
-            [class]="filterMode() === 'active' ? 'bg-indigo-600 text-white' : 'text-slate-400 hover:text-white'"
+            [class]="
+              filterMode() === 'active'
+                ? 'bg-indigo-600 text-white'
+                : 'text-slate-400 hover:text-white'
+            "
           >
             Activo
           </button>
@@ -31,7 +37,11 @@ import { UiBadgeComponent } from '../ui/ui-badge.component';
             type="button"
             (click)="setFilter('all')"
             class="px-2.5 py-1 rounded-md transition-all font-semibold"
-            [class]="filterMode() === 'all' ? 'bg-indigo-600 text-white' : 'text-slate-400 hover:text-white'"
+            [class]="
+              filterMode() === 'all'
+                ? 'bg-indigo-600 text-white'
+                : 'text-slate-400 hover:text-white'
+            "
           >
             Flota
           </button>
@@ -39,9 +49,13 @@ import { UiBadgeComponent } from '../ui/ui-badge.component';
       </div>
 
       <!-- Emergency Assistance Alert Box -->
-      <div class="bg-gradient-to-r from-red-950/40 via-slate-900 to-slate-900 border border-red-900/40 rounded-2xl p-3.5 flex items-center justify-between">
+      <div
+        class="bg-gradient-to-r from-red-950/40 via-slate-900 to-slate-900 border border-red-900/40 rounded-2xl p-3.5 flex items-center justify-between"
+      >
         <div class="flex items-center gap-3">
-          <div class="w-9 h-9 rounded-xl bg-red-500/10 text-red-400 flex items-center justify-center border border-red-500/20">
+          <div
+            class="w-9 h-9 rounded-xl bg-red-500/10 text-red-400 flex items-center justify-center border border-red-500/20"
+          >
             <app-icon name="phone-call" [size]="18" />
           </div>
           <div>
@@ -65,10 +79,22 @@ import { UiBadgeComponent } from '../ui/ui-badge.component';
               <div class="flex items-center gap-2.5">
                 <div
                   class="w-9 h-9 rounded-xl flex items-center justify-center border"
-                  [class]="doc.status === 'expiring' ? 'bg-red-500/10 text-red-400 border-red-500/20' : 'bg-slate-800 text-slate-300 border-slate-700'"
+                  [class]="
+                    doc.status === 'expiring'
+                      ? 'bg-red-500/10 text-red-400 border-red-500/20'
+                      : 'bg-slate-800 text-slate-300 border-slate-700'
+                  "
                 >
                   <app-icon
-                    [name]="doc.type === 'soat' ? 'shield-check' : doc.type === 'citv' ? 'file-text' : doc.type === 'insurance' ? 'shield-check' : 'credit-card'"
+                    [name]="
+                      doc.type === 'soat'
+                        ? 'shield-check'
+                        : doc.type === 'citv'
+                          ? 'file-text'
+                          : doc.type === 'insurance'
+                            ? 'shield-check'
+                            : 'credit-card'
+                    "
                     [size]="18"
                   />
                 </div>
@@ -87,7 +113,9 @@ import { UiBadgeComponent } from '../ui/ui-badge.component';
             </div>
 
             <!-- Details Key/Value pairs -->
-            <div class="bg-slate-950 p-2.5 rounded-xl font-mono text-[11px] space-y-1.5 border border-slate-850">
+            <div
+              class="bg-slate-950 p-2.5 rounded-xl font-mono text-[11px] space-y-1.5 border border-slate-850"
+            >
               @for (detail of doc.details; track detail.label) {
                 <div class="flex justify-between items-center">
                   <span class="text-slate-400">{{ detail.label }}:</span>
@@ -97,7 +125,10 @@ import { UiBadgeComponent } from '../ui/ui-badge.component';
               @if (doc.expiryDate) {
                 <div class="flex justify-between items-center pt-1 border-t border-slate-800/60">
                   <span class="text-slate-400">Vencimiento:</span>
-                  <span class="font-bold" [class]="doc.status === 'expiring' ? 'text-red-400' : 'text-slate-200'">
+                  <span
+                    class="font-bold"
+                    [class]="doc.status === 'expiring' ? 'text-red-400' : 'text-slate-200'"
+                  >
                     {{ doc.expiryDate }}
                   </span>
                 </div>
@@ -162,7 +193,7 @@ export class TabTramitesComponent {
       mode === 'active'
         ? 'Mostrando documentos de la unidad activa'
         : 'Mostrando documentos de toda la flota',
-      'info'
+      'info',
     );
   }
 
