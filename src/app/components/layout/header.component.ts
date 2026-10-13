@@ -1,13 +1,15 @@
 import { Component, inject, output, signal } from '@angular/core';
 import { FleetService } from '../../services/fleet.service';
-import { AppIconComponent } from '../ui/app-icon.component';
 import { UiBadgeComponent } from '../ui/ui-badge.component';
+import { AppIcon } from '../ui/app-icon/app-icon';
 
 @Component({
-  imports: [AppIconComponent, UiBadgeComponent],
+  imports: [AppIcon, UiBadgeComponent],
   selector: 'app-header',
   template: `
-    <header class="bg-slate-900/95 backdrop-blur-md border-b border-slate-800 px-4 py-2.5 z-30 sticky top-0">
+    <header
+      class="bg-slate-900/95 backdrop-blur-md border-b border-slate-800 px-4 py-2.5 z-30 sticky top-0"
+    >
       <div class="flex items-center justify-between">
         <!-- Vehicle Picker Trigger Button -->
         <button
@@ -42,7 +44,9 @@ import { UiBadgeComponent } from '../ui/ui-badge.component';
 
         <!-- Status / Clock and PWA Indicators -->
         <div class="flex items-center gap-2">
-          <div class="flex items-center gap-1 text-[11px] font-mono text-slate-400 bg-slate-950/60 px-2 py-1 rounded-lg border border-slate-800">
+          <div
+            class="flex items-center gap-1 text-[11px] font-mono text-slate-400 bg-slate-950/60 px-2 py-1 rounded-lg border border-slate-800"
+          >
             <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
             <span>{{ currentTime() }}</span>
           </div>

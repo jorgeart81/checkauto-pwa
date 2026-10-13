@@ -1,5 +1,6 @@
 import { Component, input, output } from '@angular/core';
-import { AppIconComponent, IconName } from '../ui/app-icon.component';
+import { AppIcon } from '../ui/app-icon/app-icon';
+import { IconName } from '../ui/app-icon/icon-name.type';
 
 export type TabId = 'inicio' | 'plan' | 'tramites' | 'garaje';
 
@@ -10,7 +11,7 @@ interface NavItem {
 }
 
 @Component({
-  imports: [AppIconComponent],
+  imports: [AppIcon],
   selector: 'app-bottom-nav',
   template: `
     <!-- Floating Action Button (Center FAB) -->
@@ -26,14 +27,20 @@ interface NavItem {
     </div>
 
     <!-- Bottom Navigation Bar -->
-    <nav class="fixed bottom-0 inset-x-0 mx-auto max-w-md bg-slate-900/95 backdrop-blur-lg border-t border-slate-800 px-3 py-2 z-30 pb-safe">
+    <nav
+      class="fixed bottom-0 inset-x-0 mx-auto max-w-md bg-slate-900/95 backdrop-blur-lg border-t border-slate-800 px-3 py-2 z-30 pb-safe"
+    >
       <div class="grid grid-cols-5 items-center">
         <!-- Tab 1: Inicio -->
         <button
           type="button"
           (click)="tabChange.emit('inicio')"
           class="flex flex-col items-center gap-1 transition-colors py-1"
-          [class]="activeTab() === 'inicio' ? 'text-indigo-400 font-bold' : 'text-slate-400 hover:text-slate-200 font-medium'"
+          [class]="
+            activeTab() === 'inicio'
+              ? 'text-indigo-400 font-bold'
+              : 'text-slate-400 hover:text-slate-200 font-medium'
+          "
         >
           <app-icon name="layout-dashboard" [size]="20" />
           <span class="text-[10px]">Inicio</span>
@@ -44,7 +51,11 @@ interface NavItem {
           type="button"
           (click)="tabChange.emit('plan')"
           class="flex flex-col items-center gap-1 transition-colors py-1"
-          [class]="activeTab() === 'plan' ? 'text-indigo-400 font-bold' : 'text-slate-400 hover:text-slate-200 font-medium'"
+          [class]="
+            activeTab() === 'plan'
+              ? 'text-indigo-400 font-bold'
+              : 'text-slate-400 hover:text-slate-200 font-medium'
+          "
         >
           <app-icon name="wrench" [size]="20" />
           <span class="text-[10px]">Pauta</span>
@@ -60,7 +71,11 @@ interface NavItem {
           type="button"
           (click)="tabChange.emit('tramites')"
           class="flex flex-col items-center gap-1 transition-colors py-1"
-          [class]="activeTab() === 'tramites' ? 'text-indigo-400 font-bold' : 'text-slate-400 hover:text-slate-200 font-medium'"
+          [class]="
+            activeTab() === 'tramites'
+              ? 'text-indigo-400 font-bold'
+              : 'text-slate-400 hover:text-slate-200 font-medium'
+          "
         >
           <app-icon name="shield-check" [size]="20" />
           <span class="text-[10px]">Trámites</span>
@@ -71,7 +86,11 @@ interface NavItem {
           type="button"
           (click)="tabChange.emit('garaje')"
           class="flex flex-col items-center gap-1 transition-colors py-1"
-          [class]="activeTab() === 'garaje' ? 'text-indigo-400 font-bold' : 'text-slate-400 hover:text-slate-200 font-medium'"
+          [class]="
+            activeTab() === 'garaje'
+              ? 'text-indigo-400 font-bold'
+              : 'text-slate-400 hover:text-slate-200 font-medium'
+          "
         >
           <app-icon name="car" [size]="20" />
           <span class="text-[10px]">Garaje</span>

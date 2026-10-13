@@ -1,9 +1,9 @@
 import { Component, inject } from '@angular/core';
 import { FleetService } from '../../services/fleet.service';
-import { AppIconComponent } from '../ui/app-icon.component';
+import { AppIcon } from '../ui/app-icon/app-icon';
 
 @Component({
-  imports: [AppIconComponent],
+  imports: [AppIcon],
   selector: 'app-tab-plan',
   template: `
     <div class="px-4 space-y-4 pt-2">

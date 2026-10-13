@@ -1,13 +1,13 @@
 import { Component, effect, inject, input, output, signal } from '@angular/core';
 import { FleetService } from '../../services/fleet.service';
 import { ToastService } from '../../services/toast.service';
-import { AppIconComponent, IconName } from '../ui/app-icon.component';
+import { AppIcon } from '../ui/app-icon/app-icon';
 import { ModalSheetComponent } from '../ui/modal-sheet.component';
 
 type EntryCategory = 'combustible' | 'mantenimiento' | 'tramite' | 'odometro';
 
 @Component({
-  imports: [ModalSheetComponent, AppIconComponent],
+  imports: [ModalSheetComponent, AppIcon],
   selector: 'app-quick-entry-modal',
   template: `
     <app-modal-sheet
@@ -24,7 +24,11 @@ type EntryCategory = 'combustible' | 'mantenimiento' | 'tramite' | 'odometro';
             type="button"
             (click)="setCategory('combustible')"
             class="py-2 text-[10px] font-bold rounded-lg flex flex-col items-center gap-1 transition-all"
-            [class]="category() === 'combustible' ? 'bg-indigo-600 text-white shadow-sm' : 'text-slate-400 hover:text-white'"
+            [class]="
+              category() === 'combustible'
+                ? 'bg-indigo-600 text-white shadow-sm'
+                : 'text-slate-400 hover:text-white'
+            "
           >
             <app-icon name="fuel" [size]="14" />
             <span>Carga</span>
@@ -33,7 +37,11 @@ type EntryCategory = 'combustible' | 'mantenimiento' | 'tramite' | 'odometro';
             type="button"
             (click)="setCategory('mantenimiento')"
             class="py-2 text-[10px] font-bold rounded-lg flex flex-col items-center gap-1 transition-all"
-            [class]="category() === 'mantenimiento' ? 'bg-indigo-600 text-white shadow-sm' : 'text-slate-400 hover:text-white'"
+            [class]="
+              category() === 'mantenimiento'
+                ? 'bg-indigo-600 text-white shadow-sm'
+                : 'text-slate-400 hover:text-white'
+            "
           >
             <app-icon name="wrench" [size]="14" />
             <span>Taller</span>
@@ -42,7 +50,11 @@ type EntryCategory = 'combustible' | 'mantenimiento' | 'tramite' | 'odometro';
             type="button"
             (click)="setCategory('tramite')"
             class="py-2 text-[10px] font-bold rounded-lg flex flex-col items-center gap-1 transition-all"
-            [class]="category() === 'tramite' ? 'bg-indigo-600 text-white shadow-sm' : 'text-slate-400 hover:text-white'"
+            [class]="
+              category() === 'tramite'
+                ? 'bg-indigo-600 text-white shadow-sm'
+                : 'text-slate-400 hover:text-white'
+            "
           >
             <app-icon name="shield-check" [size]="14" />
             <span>Papeles</span>
@@ -51,7 +63,11 @@ type EntryCategory = 'combustible' | 'mantenimiento' | 'tramite' | 'odometro';
             type="button"
             (click)="setCategory('odometro')"
             class="py-2 text-[10px] font-bold rounded-lg flex flex-col items-center gap-1 transition-all"
-            [class]="category() === 'odometro' ? 'bg-indigo-600 text-white shadow-sm' : 'text-slate-400 hover:text-white'"
+            [class]="
+              category() === 'odometro'
+                ? 'bg-indigo-600 text-white shadow-sm'
+                : 'text-slate-400 hover:text-white'
+            "
           >
             <app-icon name="gauge" [size]="14" />
             <span>Tablero</span>
@@ -59,7 +75,9 @@ type EntryCategory = 'combustible' | 'mantenimiento' | 'tramite' | 'odometro';
         </div>
 
         <!-- Vehicle Context Tag -->
-        <div class="flex items-center justify-between p-2.5 bg-slate-950 rounded-xl border border-slate-800 text-xs">
+        <div
+          class="flex items-center justify-between p-2.5 bg-slate-950 rounded-xl border border-slate-800 text-xs"
+        >
           <div class="flex items-center gap-2">
             <app-icon [name]="vehicle().type" [size]="14" class="text-indigo-400" />
             <span class="font-bold text-slate-200">{{ vehicle().alias }}</span>
@@ -115,9 +133,13 @@ type EntryCategory = 'combustible' | 'mantenimiento' | 'tramite' | 'odometro';
               </div>
             </div>
 
-            <div class="flex items-center justify-between p-2.5 bg-slate-950 rounded-xl border border-slate-800">
+            <div
+              class="flex items-center justify-between p-2.5 bg-slate-950 rounded-xl border border-slate-800"
+            >
               <div>
-                <span class="text-xs text-slate-200 font-medium block">¿Tanque lleno completo?</span>
+                <span class="text-xs text-slate-200 font-medium block"
+                  >¿Tanque lleno completo?</span
+                >
                 <span class="text-[10px] text-slate-400">Permite calcular MPG / km-gal exacto</span>
               </div>
               <input
@@ -142,7 +164,9 @@ type EntryCategory = 'combustible' | 'mantenimiento' | 'tramite' | 'odometro';
             </div>
             <div class="grid grid-cols-2 gap-3">
               <div class="space-y-1">
-                <label class="text-xs text-slate-300 font-medium block">Taller / Concesionario</label>
+                <label class="text-xs text-slate-300 font-medium block"
+                  >Taller / Concesionario</label
+                >
                 <input
                   type="text"
                   placeholder="Taller Oficial"

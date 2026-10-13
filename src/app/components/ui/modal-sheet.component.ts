@@ -1,8 +1,8 @@
 import { Component, input, output } from '@angular/core';
-import { AppIconComponent } from './app-icon.component';
+import { AppIcon } from './app-icon/app-icon';
 
 @Component({
-  imports: [AppIconComponent],
+  imports: [AppIcon],
   selector: 'app-modal-sheet',
   template: `
     @if (isOpen()) {

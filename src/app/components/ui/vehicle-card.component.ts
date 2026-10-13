@@ -1,10 +1,10 @@
 import { Component, input, output } from '@angular/core';
 import { Vehicle } from '../../models/vehicle.model';
-import { AppIconComponent } from './app-icon.component';
+import { AppIcon } from './app-icon/app-icon';
 import { UiBadgeComponent } from './ui-badge.component';
 
 @Component({
-  imports: [AppIconComponent, UiBadgeComponent],
+  imports: [AppIcon, UiBadgeComponent],
   selector: 'app-vehicle-card',
   template: `
     <div

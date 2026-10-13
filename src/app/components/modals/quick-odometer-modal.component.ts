@@ -1,11 +1,11 @@
 import { Component, effect, inject, input, output, signal } from '@angular/core';
 import { FleetService } from '../../services/fleet.service';
 import { ToastService } from '../../services/toast.service';
-import { AppIconComponent } from '../ui/app-icon.component';
 import { ModalSheetComponent } from '../ui/modal-sheet.component';
+import { AppIcon } from '../ui/app-icon/app-icon';
 
 @Component({
-  imports: [ModalSheetComponent, AppIconComponent],
+  imports: [ModalSheetComponent, AppIcon],
   selector: 'app-quick-odometer-modal',
   template: `
     <app-modal-sheet
@@ -33,7 +33,9 @@ import { ModalSheetComponent } from '../ui/modal-sheet.component';
             class="w-full bg-slate-950 border-2 border-indigo-500/70 rounded-2xl px-4 py-3 text-2xl text-white font-mono text-center font-bold focus:outline-none focus:border-indigo-400"
             placeholder="54500"
           />
-          <span class="absolute right-4 top-4 text-xs font-mono font-bold text-indigo-400 uppercase">
+          <span
+            class="absolute right-4 top-4 text-xs font-mono font-bold text-indigo-400 uppercase"
+          >
             {{ vehicle().unit }}
           </span>
         </div>
@@ -110,7 +112,7 @@ export class QuickOdometerModalComponent {
       this.fleetService.updateOdometer(this.vehicle().id, val);
       this.toastService.show(
         `Odómetro actualizado a ${val.toLocaleString()} ${this.vehicle().unit}`,
-        'success'
+        'success',
       );
       this.close.emit();
     }

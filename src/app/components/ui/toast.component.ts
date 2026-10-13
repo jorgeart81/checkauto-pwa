@@ -1,9 +1,10 @@
 import { Component, inject } from '@angular/core';
-import { ToastService } from '../../services/toast.service';
-import { AppIconComponent } from './app-icon.component';
+
+import { ToastService } from '@/services/toast.service';
+import { AppIcon } from './app-icon/app-icon';
 
 @Component({
-  imports: [AppIconComponent],
+  imports: [AppIcon],
   selector: 'app-toast',
   template: `
     @if (toastState().visible) {

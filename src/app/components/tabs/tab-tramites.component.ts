@@ -1,11 +1,11 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { FleetService } from '../../services/fleet.service';
 import { ToastService } from '../../services/toast.service';
-import { AppIconComponent } from '../ui/app-icon.component';
+import { AppIcon } from '../ui/app-icon/app-icon';
 import { UiBadgeComponent } from '../ui/ui-badge.component';
 
 @Component({
-  imports: [AppIconComponent, UiBadgeComponent],
+  imports: [AppIcon, UiBadgeComponent],
   selector: 'app-tab-tramites',
   template: `
     <div class="px-4 space-y-4 pt-2">

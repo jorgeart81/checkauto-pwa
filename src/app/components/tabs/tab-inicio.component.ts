@@ -1,11 +1,11 @@
 import { Component, inject, output } from '@angular/core';
 import { FleetService } from '../../services/fleet.service';
 import { AlertCardComponent } from '../ui/alert-card.component';
-import { AppIconComponent } from '../ui/app-icon.component';
+import { AppIcon } from '../ui/app-icon/app-icon';
 import { MetricCardComponent } from '../ui/metric-card.component';
 
 @Component({
-  imports: [AppIconComponent, MetricCardComponent, AlertCardComponent],
+  imports: [AppIcon, MetricCardComponent, AlertCardComponent],
   selector: 'app-tab-inicio',
   template: `
     <div class="px-4 space-y-4 pt-2">
