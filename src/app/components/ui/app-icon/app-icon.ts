@@ -4,7 +4,6 @@ import { IconName } from './icon-name.type';
 @Component({
   imports: [],
   selector: 'app-icon',
-  styles: ``,
   templateUrl: './app-icon.html',
 })
 export class AppIcon {

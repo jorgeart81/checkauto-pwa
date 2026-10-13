@@ -25,11 +25,14 @@ import { AppIcon } from '../ui/app-icon/app-icon';
           </div>
 
           <div class="min-w-0 flex-1">
-            <div class="flex items-center gap-1.5">
-              <span class="font-bold text-slate-100 text-xs truncate max-w-[140px]">
+            <div class="flex items-center gap-1.5 min-w-0 flex-nowrap">
+              <span class="font-bold text-slate-100 text-xs truncate">
                 {{ vehicle().alias }}
               </span>
-              <app-ui-badge [variant]="badgeVariant()" customClass="text-[9px] px-1 py-0">
+              <app-ui-badge
+                [variant]="badgeVariant()"
+                customClass="text-[9px] px-1.5 py-0 flex-shrink-0 whitespace-nowrap leading-none"
+              >
                 {{ vehicle().statusBadge }}
               </app-ui-badge>
             </div>
