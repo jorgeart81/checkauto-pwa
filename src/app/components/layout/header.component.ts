@@ -1,5 +1,6 @@
-import { Component, inject, output, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FleetService } from '../../services/fleet.service';
+import { ModalService } from '../../services/modal.service';
 import { UiBadgeComponent } from '../ui/ui-badge.component';
 import { AppIcon } from '../ui/app-icon/app-icon';
 
@@ -14,7 +15,7 @@ import { AppIcon } from '../ui/app-icon/app-icon';
         <!-- Vehicle Picker Trigger Button -->
         <button
           type="button"
-          (click)="openVehiclePicker.emit()"
+          (click)="modalService.openVehiclePicker()"
           class="flex items-center gap-2.5 bg-slate-800 hover:bg-slate-750 active:scale-95 transition-all text-left px-3 py-1.5 rounded-full border border-slate-700/80 shadow-sm max-w-[290px]"
         >
           <div
@@ -57,8 +58,8 @@ import { AppIcon } from '../ui/app-icon/app-icon';
 })
 export class HeaderComponent {
   private fleetService = inject(FleetService);
+  protected modalService = inject(ModalService);
   protected vehicle = this.fleetService.activeVehicle;
-  openVehiclePicker = output<void>();
 
   protected currentTime = signal<string>('09:41');
 

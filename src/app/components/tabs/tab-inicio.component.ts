@@ -1,5 +1,6 @@
-import { Component, inject, output } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FleetService } from '../../services/fleet.service';
+import { ModalService } from '../../services/modal.service';
 import { AlertCardComponent } from '../ui/alert-card.component';
 import { AppIcon } from '../ui/app-icon/app-icon';
 import { MetricCardComponent } from '../ui/metric-card.component';
@@ -10,14 +11,20 @@ import { MetricCardComponent } from '../ui/metric-card.component';
   template: `
     <div class="px-4 space-y-4 pt-2">
       <!-- 1. Hero Odometer Card -->
-      <div class="bg-gradient-to-b from-slate-900 to-slate-950 border border-slate-800 rounded-3xl p-5 shadow-lg relative overflow-hidden">
+      <div
+        class="bg-gradient-to-b from-slate-900 to-slate-950 border border-slate-800 rounded-3xl p-5 shadow-lg relative overflow-hidden"
+      >
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-2">
-            <div class="w-8 h-8 rounded-xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center border border-indigo-500/20">
+            <div
+              class="w-8 h-8 rounded-xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center border border-indigo-500/20"
+            >
               <app-icon name="gauge" [size]="16" />
             </div>
             <div>
-              <span class="text-[10px] uppercase font-bold text-slate-400 font-mono tracking-wider block">
+              <span
+                class="text-[10px] uppercase font-bold text-slate-400 font-mono tracking-wider block"
+              >
                 Odómetro Activo
               </span>
               <span class="text-[10px] text-slate-400">Actualizado recientemente</span>
@@ -26,7 +33,7 @@ import { MetricCardComponent } from '../ui/metric-card.component';
 
           <button
             type="button"
-            (click)="openQuickOdometer.emit()"
+            (click)="modalService.openOdometerModal()"
             class="px-3 py-1.5 bg-indigo-600/20 hover:bg-indigo-600/30 text-indigo-300 border border-indigo-500/30 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition-all active:scale-95"
           >
             <app-icon name="plus" [size]="12" />
@@ -60,7 +67,9 @@ import { MetricCardComponent } from '../ui/metric-card.component';
           <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 font-mono">
             Atención Inmediata
           </h3>
-          <span class="text-[10px] text-indigo-400 font-mono font-medium">Alertas del Vehículo</span>
+          <span class="text-[10px] text-indigo-400 font-mono font-medium"
+            >Alertas del Vehículo</span
+          >
         </div>
 
         <!-- Alerta Legal -->
@@ -114,16 +123,20 @@ import { MetricCardComponent } from '../ui/metric-card.component';
         </div>
 
         <!-- Gasto Mensual Card -->
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 flex items-center justify-between">
+        <div
+          class="bg-slate-900 border border-slate-800 rounded-2xl p-4 flex items-center justify-between"
+        >
           <div>
-            <span class="text-xs text-slate-400 block font-medium">Gasto Total Acumulado (Mes)</span>
+            <span class="text-xs text-slate-400 block font-medium"
+              >Gasto Total Acumulado (Mes)</span
+            >
             <span class="text-xl font-extrabold text-white font-mono mt-0.5 block">
               {{ vehicle().monthlyExpense }}
             </span>
           </div>
           <button
             type="button"
-            (click)="openQuickEntry.emit()"
+            (click)="modalService.openEntryModal()"
             class="px-3 py-1.5 bg-slate-800 hover:bg-slate-750 text-xs font-semibold text-slate-300 rounded-xl border border-slate-700 flex items-center gap-1.5"
           >
             <app-icon name="plus" [size]="14" />
@@ -141,7 +154,9 @@ import { MetricCardComponent } from '../ui/metric-card.component';
             </span>
             <h4 class="text-sm font-bold text-white mt-0.5">{{ vehicle().plan.nextService }}</h4>
           </div>
-          <span class="text-xs font-mono text-slate-400 bg-slate-950 px-2.5 py-1 rounded-lg border border-slate-800">
+          <span
+            class="text-xs font-mono text-slate-400 bg-slate-950 px-2.5 py-1 rounded-lg border border-slate-800"
+          >
             {{ vehicle().plan.intervalText }}
           </span>
         </div>
@@ -167,9 +182,7 @@ import { MetricCardComponent } from '../ui/metric-card.component';
 })
 export class TabInicioComponent {
   private fleetService = inject(FleetService);
+  protected modalService = inject(ModalService);
   protected vehicle = this.fleetService.activeVehicle;
   protected altOdo = this.fleetService.altOdometer;
-
-  openQuickOdometer = output<void>();
-  openQuickEntry = output<void>();
 }
