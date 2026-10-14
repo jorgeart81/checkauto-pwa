@@ -1,26 +1,14 @@
 import { Injectable, signal } from '@angular/core';
 
-export type DistanceMode = 'auto' | 'forced';
-export type DistanceUnit = 'km' | 'mi';
-export type VolumeUnit = 'litros' | 'galones';
-export type PerformanceFormula = 'kml' | 'l100' | 'mpg' | 'kmgal';
-export type CurrencyCode = 'USD' | 'EUR' | 'PEN' | 'MXN' | 'COP';
-
-export interface NotificationSettings {
-  workshop: boolean;
-  legal: boolean;
-  email: boolean;
-}
-
-export interface AppSettings {
-  distanceMode: DistanceMode;
-  distanceUnit: DistanceUnit;
-  volumeUnit: VolumeUnit;
-  performanceFormula: PerformanceFormula;
-  currency: CurrencyCode;
-  currencySymbol: string;
-  notifications: NotificationSettings;
-}
+import {
+  AppSettings,
+  CurrencyCode,
+  DistanceMode,
+  DistanceUnit,
+  NotificationSettings,
+  PerformanceFormula,
+  VolumeUnit,
+} from '@/interfaces/app-settings.interface';
 
 const STORAGE_KEY = 'checkauto_settings';
 
@@ -42,35 +30,36 @@ const DEFAULT_SETTINGS: AppSettings = {
   providedIn: 'root',
 })
 export class SettingsService {
-  readonly settings = signal<AppSettings>(this.loadInitialSettings());
+  private readonly _settings = signal<AppSettings>(this.loadInitialSettings());
+  readonly settings = this._settings.asReadonly();
 
   setDistanceMode(mode: DistanceMode): void {
-    this.settings.update((s) => ({ ...s, distanceMode: mode }));
+    this._settings.update((s) => ({ ...s, distanceMode: mode }));
     this.persist();
   }
 
   setDistanceUnit(unit: DistanceUnit): void {
-    this.settings.update((s) => ({ ...s, distanceUnit: unit }));
+    this._settings.update((s) => ({ ...s, distanceUnit: unit }));
     this.persist();
   }
 
   setVolumeUnit(unit: VolumeUnit): void {
-    this.settings.update((s) => ({ ...s, volumeUnit: unit }));
+    this._settings.update((s) => ({ ...s, volumeUnit: unit }));
     this.persist();
   }
 
   setPerformanceFormula(formula: PerformanceFormula): void {
-    this.settings.update((s) => ({ ...s, performanceFormula: formula }));
+    this._settings.update((s) => ({ ...s, performanceFormula: formula }));
     this.persist();
   }
 
   setCurrency(currency: CurrencyCode, symbol: string): void {
-    this.settings.update((s) => ({ ...s, currency, currencySymbol: symbol }));
+    this._settings.update((s) => ({ ...s, currency, currencySymbol: symbol }));
     this.persist();
   }
 
   toggleNotification(key: keyof NotificationSettings): void {
-    this.settings.update((s) => ({
+    this._settings.update((s) => ({
       ...s,
       notifications: {
         ...s.notifications,
@@ -98,7 +87,7 @@ export class SettingsService {
 
   private persist(): void {
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(this.settings()));
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(this._settings()));
     } catch {
       // LocalStorage quota or unavailable
     }

@@ -1,16 +1,17 @@
 import { Component, computed, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
+
 import { AppIcon } from '@/components/ui/app-icon/app-icon';
-import { FleetService } from '@/services/fleet.service';
-import {
+import type {
   CurrencyCode,
   DistanceMode,
   DistanceUnit,
   NotificationSettings,
   PerformanceFormula,
-  SettingsService,
   VolumeUnit,
-} from '@/services/settings.service';
+} from '@/interfaces/app-settings.interface';
+import { FleetService } from '@/services/fleet.service';
+import { SettingsService } from '@/services/settings.service';
 import { ToastService } from '@/services/toast.service';
 
 @Component({
