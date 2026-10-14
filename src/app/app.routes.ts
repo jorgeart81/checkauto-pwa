@@ -27,6 +27,10 @@ export const routes: Routes = [
       import('./components/tabs/tab-garaje.component').then((m) => m.TabGarajeComponent),
   },
   {
+    path: 'settings',
+    loadComponent: () => import('./pages/settings-page/settings-page').then((m) => m.SettingsPage),
+  },
+  {
     path: '**',
     redirectTo: 'home',
   },

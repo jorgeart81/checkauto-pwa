@@ -1,5 +1,7 @@
-import { Component, inject } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, computed, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { filter, map } from 'rxjs';
 
 import { BottomNavComponent } from './components/layout/bottom-nav.component';
 import { HeaderComponent } from './components/layout/header.component';
@@ -24,5 +26,16 @@ import { ModalService } from './services/modal.service';
   templateUrl: './app.html',
 })
 export class App {
+  private router = inject(Router);
   protected modalService = inject(ModalService);
+
+  private currentUrl = toSignal(
+    this.router.events.pipe(
+      filter((e): e is NavigationEnd => e instanceof NavigationEnd),
+      map((e) => e.urlAfterRedirects),
+    ),
+    { initialValue: this.router.url },
+  );
+
+  protected isSettingsPage = computed(() => this.currentUrl().includes('/settings'));
 }

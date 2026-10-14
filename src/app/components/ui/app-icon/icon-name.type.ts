@@ -23,4 +23,11 @@ export type IconName =
   | 'phone-call'
   | 'credit-card'
   | 'clock'
-  | 'sparkles';
+  | 'sparkles'
+  | 'settings'
+  | 'download'
+  | 'hard-drive'
+  | 'coins'
+  | 'bell-ring'
+  | 'sliders-horizontal'
+  | 'refresh-cw';

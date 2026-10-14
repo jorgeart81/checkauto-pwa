@@ -2,15 +2,19 @@
   class="w-full max-w-md min-h-screen bg-slate-950 flex flex-col shadow-2xl relative border-x border-slate-900 overflow-x-hidden"
 >
   <!-- App Header with Active Vehicle & Clock -->
-  <app-header />
+  @if (!isSettingsPage()) {
+    <app-header />
+  }
 
   <!-- Main Routed Content Area (Scrollable) -->
-  <main class="flex-1 overflow-y-auto pb-28">
+  <main class="flex-1 overflow-y-auto" [class]="isSettingsPage() ? 'pb-6' : 'pb-28'">
     <router-outlet />
   </main>
 
   <!-- Bottom Fixed Navigation with Floating Center FAB -->
-  <app-bottom-nav />
+  @if (!isSettingsPage()) {
+    <app-bottom-nav />
+  }
 
   <!-- Vehicle Picker Bottom Sheet -->
   <app-vehicle-picker-sheet

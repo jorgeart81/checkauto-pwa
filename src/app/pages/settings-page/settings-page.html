@@ -1,0 +1,602 @@
+<!-- Settings Header -->
+<header
+  class="bg-slate-900/95 backdrop-blur-md border-b border-slate-800 px-4 py-3 z-30 sticky top-0"
+>
+  <div class="flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <a
+        routerLink="/home"
+        class="w-8 h-8 rounded-full bg-slate-800/90 hover:bg-slate-750 text-slate-300 flex items-center justify-center border border-slate-700/80 active:scale-95 transition-all"
+        title="Volver"
+      >
+        <app-icon name="arrow-right" [size]="16" class="rotate-90" />
+      </a>
+      <div class="min-w-0">
+        <div class="flex items-center gap-1.5">
+          <app-icon name="settings" [size]="16" class="text-indigo-400" />
+          <h1 class="text-sm font-bold text-white tracking-tight truncate">Ajustes del Sistema</h1>
+        </div>
+        <p class="text-[10px] text-slate-400 truncate">Preferencias globales de la flota</p>
+      </div>
+    </div>
+
+    <!-- Sync Chip Badge -->
+    <span
+      class="px-2.5 py-1 text-[10px] font-semibold rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 font-mono flex items-center gap-1.5 flex-shrink-0"
+    >
+      <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+      <span>Sincronizado ☁️</span>
+    </span>
+  </div>
+</header>
+
+<!-- Main Scrollable Settings Content -->
+<main class="flex-1 px-4 py-4 space-y-4">
+  <!-- SECTION 1: DISTANCE & SPEED UNITS -->
+  <section class="bg-slate-900 rounded-2xl p-4 border border-slate-800 shadow-sm space-y-3.5">
+    <div class="flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <div
+          class="w-7 h-7 rounded-lg bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 flex items-center justify-center"
+        >
+          <app-icon name="gauge" [size]="16" />
+        </div>
+        <h2 class="text-xs font-bold text-slate-200 uppercase tracking-wider">
+          Unidades de Distancia
+        </h2>
+      </div>
+      <span class="text-[10px] text-indigo-400 font-mono font-medium">Métricas</span>
+    </div>
+
+    <!-- Mode Selector: Auto vs Forced -->
+    <div
+      class="bg-slate-950 p-1 rounded-xl border border-slate-800 grid grid-cols-2 gap-1 text-[11px]"
+    >
+      <button
+        type="button"
+        (click)="setDistanceMode('auto')"
+        class="py-2 px-2.5 rounded-lg font-semibold transition-all flex items-center justify-center gap-1.5 text-center"
+        [class]="
+          settings().distanceMode === 'auto'
+            ? 'bg-indigo-600 text-white shadow-sm'
+            : 'text-slate-400 hover:text-white'
+        "
+      >
+        <app-icon name="sparkles" [size]="14" />
+        <span>Por Vehículo <span class="text-[9px] opacity-80">(Auto)</span></span>
+      </button>
+
+      <button
+        type="button"
+        (click)="setDistanceMode('forced')"
+        class="py-2 px-2.5 rounded-lg font-semibold transition-all flex items-center justify-center gap-1.5 text-center"
+        [class]="
+          settings().distanceMode === 'forced'
+            ? 'bg-indigo-600 text-white shadow-sm'
+            : 'text-slate-400 hover:text-white'
+        "
+      >
+        <app-icon name="sliders-horizontal" [size]="14" />
+        <span>Forzar Global</span>
+      </button>
+    </div>
+
+    <!-- Visual Radio Cards -->
+    <div class="grid grid-cols-2 gap-2.5 pt-1">
+      <!-- Option Kilometros -->
+      <button
+        type="button"
+        (click)="selectDistanceUnit('km')"
+        class="p-3 rounded-xl border text-left transition-all relative"
+        [class]="
+          settings().distanceUnit === 'km'
+            ? 'border-emerald-500/40 bg-emerald-950/20'
+            : 'border-slate-800 bg-slate-950 hover:border-slate-700'
+        "
+      >
+        <div class="flex items-center justify-between mb-1.5">
+          <span class="text-xs font-bold text-white font-mono">Kilómetros</span>
+          @if (settings().distanceUnit === 'km') {
+            <span
+              class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 font-mono"
+            >
+              ACTIVO
+            </span>
+          }
+        </div>
+        <span class="text-[10px] text-slate-400 font-mono block">km • km/h</span>
+        <span class="text-[9px] text-slate-500 block mt-1">Estándar internacional</span>
+      </button>
+
+      <!-- Option Millas -->
+      <button
+        type="button"
+        (click)="selectDistanceUnit('mi')"
+        class="p-3 rounded-xl border text-left transition-all relative"
+        [class]="
+          settings().distanceUnit === 'mi'
+            ? 'border-emerald-500/40 bg-emerald-950/20'
+            : 'border-slate-800 bg-slate-950 hover:border-slate-700'
+        "
+      >
+        <div class="flex items-center justify-between mb-1.5">
+          <span class="text-xs font-bold text-white font-mono">Millas</span>
+          @if (settings().distanceUnit === 'mi') {
+            <span
+              class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 font-mono"
+            >
+              ACTIVO
+            </span>
+          }
+        </div>
+        <span class="text-[10px] text-slate-400 font-mono block">mi • mph</span>
+        <span class="text-[9px] text-slate-500 block mt-1">Importados USA / UK</span>
+      </button>
+    </div>
+
+    <!-- Real-time Equivalence Calculation Preview -->
+    <div
+      class="p-2.5 rounded-xl bg-slate-950 border border-slate-800/80 flex items-center justify-between text-xs"
+    >
+      <span class="text-slate-400 text-[11px] flex items-center gap-1.5">
+        <app-icon name="refresh-cw" [size]="14" class="text-indigo-400" />
+        Equivalencia en tiempo real:
+      </span>
+      <span class="font-mono font-bold text-indigo-300 text-xs">{{ conversionPreview() }}</span>
+    </div>
+  </section>
+
+  <!-- SECTION 2: FUEL & PERFORMANCE -->
+  <section class="bg-slate-900 rounded-2xl p-4 border border-slate-800 shadow-sm space-y-3.5">
+    <div class="flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <div
+          class="w-7 h-7 rounded-lg bg-amber-500/10 text-amber-400 border border-amber-500/20 flex items-center justify-center"
+        >
+          <app-icon name="fuel" [size]="16" />
+        </div>
+        <h2 class="text-xs font-bold text-slate-200 uppercase tracking-wider">
+          Combustible y Rendimiento
+        </h2>
+      </div>
+      <span class="text-[10px] text-amber-400 font-mono font-medium">Eficiencia</span>
+    </div>
+
+    <!-- Volume Unit Selector -->
+    <div class="space-y-1.5">
+      <span class="text-[11px] text-slate-400 font-medium block">Unidad de volumen preferida:</span>
+      <div class="grid grid-cols-2 gap-2 text-xs">
+        <button
+          type="button"
+          (click)="selectVolumeUnit('litros')"
+          class="py-2 px-3 rounded-xl border font-bold font-mono flex items-center justify-center gap-1.5 transition-all"
+          [class]="
+            settings().volumeUnit === 'litros'
+              ? 'border-indigo-500 bg-indigo-950/40 text-slate-100 shadow-sm'
+              : 'border-slate-800 bg-slate-950 text-slate-300 hover:border-slate-700'
+          "
+        >
+          @if (settings().volumeUnit === 'litros') {
+            <app-icon name="check" [size]="14" class="text-indigo-400" />
+          }
+          <span>Litros (L)</span>
+        </button>
+
+        <button
+          type="button"
+          (click)="selectVolumeUnit('galones')"
+          class="py-2 px-3 rounded-xl border font-bold font-mono flex items-center justify-center gap-1.5 transition-all"
+          [class]="
+            settings().volumeUnit === 'galones'
+              ? 'border-indigo-500 bg-indigo-950/40 text-slate-100 shadow-sm'
+              : 'border-slate-800 bg-slate-950 text-slate-300 hover:border-slate-700'
+          "
+        >
+          @if (settings().volumeUnit === 'galones') {
+            <app-icon name="check" [size]="14" class="text-indigo-400" />
+          }
+          <span>Galones US (gal)</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Performance Calculation Formula -->
+    <div class="space-y-1.5 pt-1">
+      <span class="text-[11px] text-slate-400 font-medium block"
+        >Fórmula de cálculo de consumo:</span
+      >
+      <div class="grid grid-cols-2 gap-2 text-xs font-mono">
+        <button
+          type="button"
+          (click)="selectPerformanceFormula('kml')"
+          class="p-2.5 rounded-xl border text-left transition-all"
+          [class]="
+            settings().performanceFormula === 'kml'
+              ? 'border-indigo-500 bg-indigo-950/40 text-indigo-300'
+              : 'border-slate-800 bg-slate-950 text-slate-300 hover:border-slate-700'
+          "
+        >
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-xs">km / Litro</span>
+            <span
+              class="w-1.5 h-1.5 rounded-full"
+              [class]="settings().performanceFormula === 'kml' ? 'bg-indigo-400' : 'bg-transparent'"
+            ></span>
+          </div>
+          <span class="text-[10px] text-slate-400 block mt-0.5 font-sans">Métrico directo</span>
+        </button>
+
+        <button
+          type="button"
+          (click)="selectPerformanceFormula('l100')"
+          class="p-2.5 rounded-xl border text-left transition-all"
+          [class]="
+            settings().performanceFormula === 'l100'
+              ? 'border-indigo-500 bg-indigo-950/40 text-indigo-300'
+              : 'border-slate-800 bg-slate-950 text-slate-300 hover:border-slate-700'
+          "
+        >
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-xs">L / 100 km</span>
+            <span
+              class="w-1.5 h-1.5 rounded-full"
+              [class]="
+                settings().performanceFormula === 'l100' ? 'bg-indigo-400' : 'bg-transparent'
+              "
+            ></span>
+          </div>
+          <span class="text-[10px] text-slate-400 block mt-0.5 font-sans">Estándar Europeo</span>
+        </button>
+
+        <button
+          type="button"
+          (click)="selectPerformanceFormula('mpg')"
+          class="p-2.5 rounded-xl border text-left transition-all"
+          [class]="
+            settings().performanceFormula === 'mpg'
+              ? 'border-indigo-500 bg-indigo-950/40 text-indigo-300'
+              : 'border-slate-800 bg-slate-950 text-slate-300 hover:border-slate-700'
+          "
+        >
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-xs">MPG (mi/gal)</span>
+            <span
+              class="w-1.5 h-1.5 rounded-full"
+              [class]="settings().performanceFormula === 'mpg' ? 'bg-indigo-400' : 'bg-transparent'"
+            ></span>
+          </div>
+          <span class="text-[10px] text-slate-300 block mt-0.5 font-sans">Importados USA</span>
+        </button>
+
+        <button
+          type="button"
+          (click)="selectPerformanceFormula('kmgal')"
+          class="p-2.5 rounded-xl border text-left transition-all"
+          [class]="
+            settings().performanceFormula === 'kmgal'
+              ? 'border-indigo-500 bg-indigo-950/40 text-indigo-300'
+              : 'border-slate-800 bg-slate-950 text-slate-300 hover:border-slate-700'
+          "
+        >
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-xs">km / Galón</span>
+            <span
+              class="w-1.5 h-1.5 rounded-full"
+              [class]="
+                settings().performanceFormula === 'kmgal' ? 'bg-indigo-400' : 'bg-transparent'
+              "
+            ></span>
+          </div>
+          <span class="text-[10px] text-slate-400 block mt-0.5 font-sans">Estándar Perú/Latam</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 3: CURRENCY & COST DISPLAY -->
+  <section class="bg-slate-900 rounded-2xl p-4 border border-slate-800 shadow-sm space-y-3.5">
+    <div class="flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <div
+          class="w-7 h-7 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 flex items-center justify-center"
+        >
+          <app-icon name="coins" [size]="16" />
+        </div>
+        <h2 class="text-xs font-bold text-slate-200 uppercase tracking-wider">Moneda y Costos</h2>
+      </div>
+      <span class="text-[10px] text-emerald-400 font-mono font-medium">Finanzas</span>
+    </div>
+
+    <!-- Currency Selector -->
+    <div class="grid grid-cols-5 gap-1.5 text-xs font-mono text-center">
+      <button
+        type="button"
+        (click)="selectCurrency('USD', '$')"
+        class="py-2.5 rounded-xl border transition-all"
+        [class]="
+          settings().currency === 'USD'
+            ? 'border-indigo-500 bg-indigo-950/40 text-white font-bold'
+            : 'border-slate-800 bg-slate-950 text-slate-400 hover:text-white'
+        "
+      >
+        <span class="block text-xs">USD</span>
+        <span class="text-[9px] text-indigo-300">($)</span>
+      </button>
+
+      <button
+        type="button"
+        (click)="selectCurrency('EUR', '€')"
+        class="py-2.5 rounded-xl border transition-all"
+        [class]="
+          settings().currency === 'EUR'
+            ? 'border-indigo-500 bg-indigo-950/40 text-white font-bold'
+            : 'border-slate-800 bg-slate-950 text-slate-400 hover:text-white'
+        "
+      >
+        <span class="block text-xs">EUR</span>
+        <span class="text-[9px] text-slate-500">(€)</span>
+      </button>
+
+      <button
+        type="button"
+        (click)="selectCurrency('PEN', 'S/')"
+        class="py-2.5 rounded-xl border transition-all"
+        [class]="
+          settings().currency === 'PEN'
+            ? 'border-indigo-500 bg-indigo-950/40 text-white font-bold'
+            : 'border-slate-800 bg-slate-950 text-slate-400 hover:text-white'
+        "
+      >
+        <span class="block text-xs">PEN</span>
+        <span class="text-[9px] text-slate-500">(S/)</span>
+      </button>
+
+      <button
+        type="button"
+        (click)="selectCurrency('MXN', '$')"
+        class="py-2.5 rounded-xl border transition-all"
+        [class]="
+          settings().currency === 'MXN'
+            ? 'border-indigo-500 bg-indigo-950/40 text-white font-bold'
+            : 'border-slate-800 bg-slate-950 text-slate-400 hover:text-white'
+        "
+      >
+        <span class="block text-xs">MXN</span>
+        <span class="text-[9px] text-slate-500">($)</span>
+      </button>
+
+      <button
+        type="button"
+        (click)="selectCurrency('COP', '$')"
+        class="py-2.5 rounded-xl border transition-all"
+        [class]="
+          settings().currency === 'COP'
+            ? 'border-indigo-500 bg-indigo-950/40 text-white font-bold'
+            : 'border-slate-800 bg-slate-950 text-slate-400 hover:text-white'
+        "
+      >
+        <span class="block text-xs">COP</span>
+        <span class="text-[9px] text-slate-500">($)</span>
+      </button>
+    </div>
+
+    <!-- Reactive Example Display -->
+    <div
+      class="p-3 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-between"
+    >
+      <div class="min-w-0">
+        <span class="text-[10px] text-slate-400 block font-medium"
+          >Ejemplo en reportes y odómetro:</span
+        >
+        <div class="font-mono text-xs font-bold text-emerald-400 mt-0.5 truncate">
+          {{ costPreview() }}
+        </div>
+      </div>
+      <span
+        class="px-2 py-0.5 rounded text-[9px] font-mono font-semibold bg-slate-800 text-slate-300 border border-slate-700"
+        >Preview</span
+      >
+    </div>
+  </section>
+
+  <!-- SECTION 4: NOTIFICATIONS & THRESHOLDS -->
+  <section class="bg-slate-900 rounded-2xl p-4 border border-slate-800 shadow-sm space-y-3">
+    <div class="flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <div
+          class="w-7 h-7 rounded-lg bg-red-500/10 text-red-400 border border-red-500/20 flex items-center justify-center"
+        >
+          <app-icon name="bell-ring" [size]="16" />
+        </div>
+        <h2 class="text-xs font-bold text-slate-200 uppercase tracking-wider">
+          Notificaciones y Umbrales
+        </h2>
+      </div>
+      <span class="text-[10px] text-red-400 font-mono font-medium">Alertas</span>
+    </div>
+
+    <div class="space-y-2.5">
+      <!-- Workshop alerts -->
+      <div
+        class="flex items-center justify-between p-3 bg-slate-950 rounded-xl border border-slate-800/80"
+      >
+        <div class="pr-3">
+          <div class="flex items-center gap-1.5">
+            <span class="text-xs font-bold text-slate-200">Alertas Preventivas de Taller</span>
+            <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+          </div>
+          <span class="text-[10px] text-slate-400 block mt-0.5"
+            >Avisar 500 km ó 15 días antes de la meta</span
+          >
+        </div>
+        <button
+          type="button"
+          (click)="toggleNotification('workshop', 'Avisos preventivos de taller')"
+          class="w-11 h-6 rounded-full p-1 transition-colors relative flex items-center"
+          [class]="settings().notifications.workshop ? 'bg-indigo-600' : 'bg-slate-800'"
+          aria-label="Toggle taller alerts"
+        >
+          <span
+            class="w-4 h-4 bg-white rounded-full shadow-md transform transition-transform"
+            [class]="settings().notifications.workshop ? 'translate-x-5' : 'translate-x-0'"
+          ></span>
+        </button>
+      </div>
+
+      <!-- Legal deadlines -->
+      <div
+        class="flex items-center justify-between p-3 bg-slate-950 rounded-xl border border-slate-800/80"
+      >
+        <div class="pr-3">
+          <div class="flex items-center gap-1.5">
+            <span class="text-xs font-bold text-slate-200"
+              >Vencimientos Legales (SOAT / Póliza)</span
+            >
+            <span class="w-1.5 h-1.5 rounded-full bg-red-400"></span>
+          </div>
+          <span class="text-[10px] text-slate-400 block mt-0.5"
+            >Alerta crítica 30 días y 7 días previos</span
+          >
+        </div>
+        <button
+          type="button"
+          (click)="toggleNotification('legal', 'Notificaciones de SOAT y póliza')"
+          class="w-11 h-6 rounded-full p-1 transition-colors relative flex items-center"
+          [class]="settings().notifications.legal ? 'bg-indigo-600' : 'bg-slate-800'"
+          aria-label="Toggle legal alerts"
+        >
+          <span
+            class="w-4 h-4 bg-white rounded-full shadow-md transform transition-transform"
+            [class]="settings().notifications.legal ? 'translate-x-5' : 'translate-x-0'"
+          ></span>
+        </button>
+      </div>
+
+      <!-- Monthly email summary -->
+      <div
+        class="flex items-center justify-between p-3 bg-slate-950 rounded-xl border border-slate-800/80"
+      >
+        <div class="pr-3">
+          <span class="text-xs font-medium text-slate-300 block"
+            >Resumen mensual de consumo por email</span
+          >
+          <span class="text-[10px] text-slate-500 block mt-0.5"
+            >Reporte consolidado al correo principal</span
+          >
+        </div>
+        <button
+          type="button"
+          (click)="toggleNotification('email', 'Resumen mensual por correo')"
+          class="w-11 h-6 rounded-full p-1 transition-colors relative flex items-center"
+          [class]="settings().notifications.email ? 'bg-indigo-600' : 'bg-slate-800'"
+          aria-label="Toggle email summary"
+        >
+          <span
+            class="w-4 h-4 bg-white rounded-full shadow-md transform transition-transform"
+            [class]="settings().notifications.email ? 'translate-x-5' : 'translate-x-0'"
+          ></span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 5: DATA MANAGEMENT & PRIVACY -->
+  <section class="bg-slate-900 rounded-2xl p-4 border border-slate-800 shadow-sm space-y-3">
+    <div class="flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <div
+          class="w-7 h-7 rounded-lg bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 flex items-center justify-center"
+        >
+          <app-icon name="hard-drive" [size]="16" />
+        </div>
+        <h2 class="text-xs font-bold text-slate-200 uppercase tracking-wider">
+          Gestión de Datos y Privacidad
+        </h2>
+      </div>
+      <span class="text-[10px] text-indigo-400 font-mono font-medium">Export</span>
+    </div>
+
+    <div class="space-y-2">
+      <!-- Export Log Button -->
+      <button
+        type="button"
+        (click)="exportData()"
+        class="w-full py-2.5 px-3 bg-slate-950 hover:bg-slate-800/80 border border-slate-800 rounded-xl text-left flex items-center justify-between transition-all active:scale-[0.99]"
+      >
+        <div class="flex items-center gap-2.5">
+          <div
+            class="w-8 h-8 rounded-lg bg-emerald-500/15 text-emerald-400 flex items-center justify-center flex-shrink-0"
+          >
+            <app-icon name="download" [size]="16" />
+          </div>
+          <div>
+            <span class="text-xs font-bold text-slate-200 block">Exportar Bitácora Completa</span>
+            <span class="text-[10px] text-slate-400">Descargar libro en formato CSV / Excel</span>
+          </div>
+        </div>
+        <app-icon name="chevron-right" [size]="16" class="text-slate-500" />
+      </button>
+
+      <!-- Generate PDF Report Button -->
+      <button
+        type="button"
+        (click)="generatePdf()"
+        class="w-full py-2.5 px-3 bg-slate-950 hover:bg-slate-800/80 border border-slate-800 rounded-xl text-left flex items-center justify-between transition-all active:scale-[0.99]"
+      >
+        <div class="flex items-center gap-2.5">
+          <div
+            class="w-8 h-8 rounded-lg bg-indigo-500/15 text-indigo-400 flex items-center justify-center flex-shrink-0"
+          >
+            <app-icon name="shield-check" [size]="16" />
+          </div>
+          <div>
+            <span class="text-xs font-bold text-slate-200 block"
+              >Generar Reporte PDF para Venta</span
+            >
+            <span class="text-[10px] text-slate-400"
+              >Historial verificado con sellos y odómetros</span
+            >
+          </div>
+        </div>
+        <app-icon name="chevron-right" [size]="16" class="text-slate-500" />
+      </button>
+    </div>
+
+    <!-- PWA Local Storage Indicator -->
+    <div
+      class="p-2.5 rounded-xl bg-slate-950 border border-slate-800/80 flex items-center justify-between text-xs"
+    >
+      <div class="flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+        <span class="text-[10px] text-slate-400 font-mono"
+          >12.4 MB en caché • Modo Offline Activo</span
+        >
+      </div>
+      <button
+        type="button"
+        (click)="syncCache()"
+        class="text-[10px] text-indigo-400 font-medium hover:underline"
+      >
+        Sincronizar
+      </button>
+    </div>
+  </section>
+
+  <!-- CTA SAVE PREFERENCES BUTTON -->
+  <div class="pt-2">
+    <button
+      type="button"
+      (click)="saveAllPreferences()"
+      class="w-full py-3.5 bg-indigo-600 hover:bg-indigo-500 active:scale-[0.98] text-white font-bold text-xs rounded-xl shadow-lg shadow-indigo-600/30 flex items-center justify-center gap-2 transition-all"
+    >
+      <app-icon name="check" [size]="16" />
+      <span>Guardar Preferencias Globales</span>
+    </button>
+  </div>
+
+  <!-- Footer Micro Copy -->
+  <div class="text-center py-2 text-[10px] text-slate-500 font-mono space-y-0.5">
+    <p>AutoBitácora Settings v2.5.0</p>
+    <p class="text-[9px]">Ajustes almacenados localmente y replicados a la nube</p>
+  </div>
+</main>

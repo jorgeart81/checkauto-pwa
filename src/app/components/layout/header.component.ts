@@ -1,11 +1,12 @@
 import { Component, inject, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { FleetService } from '../../services/fleet.service';
 import { ModalService } from '../../services/modal.service';
 import { UiBadgeComponent } from '../ui/ui-badge.component';
 import { AppIcon } from '../ui/app-icon/app-icon';
 
 @Component({
-  imports: [AppIcon, UiBadgeComponent],
+  imports: [RouterLink, AppIcon, UiBadgeComponent],
   selector: 'app-header',
   template: `
     <header
@@ -46,14 +47,23 @@ import { AppIcon } from '../ui/app-icon/app-icon';
           <app-icon name="chevron-down" [size]="14" class="text-slate-400 ml-auto flex-shrink-0" />
         </button>
 
-        <!-- Status / Clock and PWA Indicators -->
+        <!-- Status / Clock and Settings Shortcut -->
         <div class="flex items-center gap-2">
-          <div
+          <!-- <div
             class="flex items-center gap-1 text-[11px] font-mono text-slate-400 bg-slate-950/60 px-2 py-1 rounded-lg border border-slate-800"
           >
             <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
             <span>{{ currentTime() }}</span>
-          </div>
+          </div> -->
+
+          <a
+            routerLink="/settings"
+            class="w-7 h-7 rounded-lg bg-slate-800 hover:bg-slate-750 text-slate-300 flex items-center justify-center border border-slate-700/80 active:scale-95 transition-all"
+            title="Ajustes del Sistema"
+            aria-label="Ajustes del Sistema"
+          >
+            <app-icon name="settings" [size]="14" />
+          </a>
         </div>
       </div>
     </header>
