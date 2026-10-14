@@ -1,0 +1,153 @@
+<!-- Section Header with Filter -->
+<div class="flex items-center justify-between">
+  <div>
+    <span class="text-[10px] font-bold text-indigo-400 uppercase tracking-wider font-mono">
+      BILLETERA DIGITAL
+    </span>
+    <h2 class="text-base font-bold text-white">Documentos & Trámites</h2>
+  </div>
+
+  <div class="flex items-center bg-slate-900 border border-slate-800 rounded-lg p-0.5 text-xs">
+    <button
+      type="button"
+      (click)="setFilter('active')"
+      class="px-2.5 py-1 rounded-md transition-all font-semibold"
+      [class]="
+        filterMode() === 'active' ? 'bg-indigo-600 text-white' : 'text-slate-400 hover:text-white'
+      "
+    >
+      Activo
+    </button>
+    <button
+      type="button"
+      (click)="setFilter('all')"
+      class="px-2.5 py-1 rounded-md transition-all font-semibold"
+      [class]="
+        filterMode() === 'all' ? 'bg-indigo-600 text-white' : 'text-slate-400 hover:text-white'
+      "
+    >
+      Flota
+    </button>
+  </div>
+</div>
+
+<!-- Emergency Assistance Alert Box -->
+<div
+  class="bg-gradient-to-r from-red-950/40 via-slate-900 to-slate-900 border border-red-900/40 rounded-2xl p-3.5 flex items-center justify-between"
+>
+  <div class="flex items-center gap-3">
+    <div
+      class="w-9 h-9 rounded-xl bg-red-500/10 text-red-400 flex items-center justify-center border border-red-500/20"
+    >
+      <app-icon name="phone-call" [size]="18" />
+    </div>
+    <div>
+      <h4 class="text-xs font-bold text-white">Asistencia y Auxilio Vial 24/7</h4>
+      <span class="text-[11px] text-slate-400">Grúa, auxilio mecánico y ambulancia</span>
+    </div>
+  </div>
+  <a
+    href="tel:014111111"
+    class="px-3 py-1.5 bg-red-600 hover:bg-red-500 active:scale-95 text-white text-xs font-bold rounded-xl shadow transition-all flex items-center gap-1.5"
+  >
+    <span>Llamar</span>
+  </a>
+</div>
+
+<!-- Document Cards List -->
+<div class="space-y-3">
+  @for (doc of filteredDocs(); track doc.id) {
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-3">
+      <div class="flex items-start justify-between">
+        <div class="flex items-center gap-2.5">
+          <div
+            class="w-9 h-9 rounded-xl flex items-center justify-center border"
+            [class]="
+              doc.status === 'expiring'
+                ? 'bg-red-500/10 text-red-400 border-red-500/20'
+                : 'bg-slate-800 text-slate-300 border-slate-700'
+            "
+          >
+            <app-icon
+              [name]="
+                doc.type === 'soat'
+                  ? 'shield-check'
+                  : doc.type === 'citv'
+                    ? 'file-text'
+                    : doc.type === 'insurance'
+                      ? 'shield-check'
+                      : 'credit-card'
+              "
+              [size]="18"
+            />
+          </div>
+          <div>
+            <h3 class="text-xs font-bold text-slate-100">{{ doc.title }}</h3>
+            <span class="text-[10px] text-slate-400 block">{{ doc.vehicleAlias }}</span>
+          </div>
+        </div>
+
+        <app-ui-badge
+          [variant]="doc.status === 'expiring' ? 'critical' : 'optimal'"
+          customClass="text-[9px]"
+        >
+          {{ doc.statusBadge }}
+        </app-ui-badge>
+      </div>
+
+      <!-- Details Key/Value pairs -->
+      <div
+        class="bg-slate-950 p-2.5 rounded-xl font-mono text-[11px] space-y-1.5 border border-slate-850"
+      >
+        @for (detail of doc.details; track detail.label) {
+          <div class="flex justify-between items-center">
+            <span class="text-slate-400">{{ detail.label }}:</span>
+            <span class="text-slate-200 font-medium">{{ detail.value }}</span>
+          </div>
+        }
+        @if (doc.expiryDate) {
+          <div class="flex justify-between items-center pt-1 border-t border-slate-800/60">
+            <span class="text-slate-400">Vencimiento:</span>
+            <span
+              class="font-bold"
+              [class]="doc.status === 'expiring' ? 'text-red-400' : 'text-slate-200'"
+            >
+              {{ doc.expiryDate }}
+            </span>
+          </div>
+        }
+      </div>
+
+      <!-- Actions buttons -->
+      <div class="flex items-center gap-2 pt-1">
+        @if (doc.primaryAction) {
+          @if (doc.primaryAction.tel) {
+            <a
+              [href]="'tel:' + doc.primaryAction.tel"
+              class="flex-1 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold rounded-xl flex items-center justify-center gap-1.5 transition-all shadow-sm"
+            >
+              <app-icon name="phone-call" [size]="14" />
+              <span>{{ doc.primaryAction.label }}</span>
+            </a>
+          } @else {
+            <button
+              type="button"
+              (click)="triggerDocAction(doc.title)"
+              class="flex-1 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold rounded-xl flex items-center justify-center gap-1.5 transition-all shadow-sm"
+            >
+              <app-icon name="sparkles" [size]="14" />
+              <span>{{ doc.primaryAction.label }}</span>
+            </button>
+          }
+        }
+        <button
+          type="button"
+          (click)="viewDocumentModal(doc.title)"
+          class="px-3 py-1.5 bg-slate-800 hover:bg-slate-750 text-slate-300 text-xs font-medium rounded-xl border border-slate-700 transition-colors"
+        >
+          Ver Póliza
+        </button>
+      </div>
+    </div>
+  }
+</div>

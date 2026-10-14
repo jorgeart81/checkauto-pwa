@@ -10,7 +10,7 @@ import { AppIcon } from '@/components/ui/app-icon/app-icon';
   imports: [MetricCardComponent, AlertCardComponent, AppIcon],
   selector: 'app-home-page',
   templateUrl: './home-page.html',
-  host: { class: 'px-4 space-y-4 pt-2' },
+  host: { class: 'block px-4 space-y-4 pt-2' },
 })
 export class HomePage {
   private fleetService = inject(FleetService);

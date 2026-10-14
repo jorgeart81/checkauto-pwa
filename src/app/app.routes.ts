@@ -12,19 +12,17 @@ export const routes: Routes = [
     component: HomePage,
   },
   {
+    path: 'garage',
+    loadComponent: () => import('./pages/garage-page/garage-page').then((m) => m.GaragePage),
+  },
+  {
     path: 'plan',
-    loadComponent: () =>
-      import('./components/tabs/tab-plan.component').then((m) => m.TabPlanComponent),
+    loadComponent: () => import('./pages/plan-page/plan-page').then((m) => m.PlanPage),
   },
   {
     path: 'procedures',
     loadComponent: () =>
-      import('./components/tabs/tab-tramites.component').then((m) => m.TabTramitesComponent),
-  },
-  {
-    path: 'garage',
-    loadComponent: () =>
-      import('./components/tabs/tab-garaje.component').then((m) => m.TabGarajeComponent),
+      import('./pages/procedures-page/procedures-page').then((m) => m.ProceduresPage),
   },
   {
     path: 'settings',
