@@ -2,7 +2,7 @@ import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/
 import { provideRouter, withViewTransitions } from '@angular/router';
 
 import { FleetRepository } from '@/core/repositories/fleet.repository';
-import { LocalStorageFleetRepository } from '@/core/repositories/local-storage-fleet.repository';
+import { LocalStorageFleetRepository } from '@/data/repositories/local-storage-fleet.repository';
 import { routes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {

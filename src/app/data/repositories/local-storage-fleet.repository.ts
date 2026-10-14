@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
+import { FleetRepository } from '@/core/repositories/fleet.repository';
 import { Vehicle } from '@/models/vehicle.model';
-import { FleetRepository } from './fleet.repository';
 
 const STORAGE_KEY_FLEET = 'checkauto_fleet';
 const STORAGE_KEY_ACTIVE = 'checkauto_active_vehicle';
