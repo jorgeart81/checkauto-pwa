@@ -9,14 +9,13 @@
       </span>
       <h2 class="text-lg font-extrabold text-white">{{ stats().total }} Unidades Registradas</h2>
     </div>
-    <button
-      type="button"
-      (click)="onAddVehicle()"
+    <a
+      routerLink="/garage/add"
       class="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold rounded-xl flex items-center gap-1.5 shadow-sm active:scale-95 transition-all"
     >
       <app-icon name="plus" [size]="14" />
       <span>Añadir</span>
-    </button>
+    </a>
   </div>
 
   <!-- 3 Status Mini Badges -->

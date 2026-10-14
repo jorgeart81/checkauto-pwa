@@ -243,12 +243,15 @@ const INITIAL_DOCUMENTS: DocumentItem[] = [
   },
 ];
 
+const STORAGE_KEY_FLEET = 'checkauto_fleet';
+const STORAGE_KEY_ACTIVE = 'checkauto_active_vehicle';
+
 @Injectable({
   providedIn: 'root',
 })
 export class FleetService {
-  readonly fleet = signal<Vehicle[]>(INITIAL_FLEET);
-  readonly activeVehicleId = signal<string>('ford-f150');
+  readonly fleet = signal<Vehicle[]>(this.loadStoredFleet());
+  readonly activeVehicleId = signal<string>(this.loadStoredActiveId());
   readonly documents = signal<DocumentItem[]>(INITIAL_DOCUMENTS);
 
   readonly activeVehicle = computed(() => {
@@ -283,13 +286,22 @@ export class FleetService {
   selectVehicle(vehicleId: string): void {
     if (this.fleet().some((v) => v.id === vehicleId)) {
       this.activeVehicleId.set(vehicleId);
+      this.persistActiveId();
     }
+  }
+
+  addVehicle(vehicle: Vehicle): void {
+    this.fleet.update((list) => [vehicle, ...list]);
+    this.activeVehicleId.set(vehicle.id);
+    this.persistFleet();
+    this.persistActiveId();
   }
 
   updateOdometer(vehicleId: string, newOdometer: number): void {
     this.fleet.update((list) =>
       list.map((v) => (v.id === vehicleId ? { ...v, odometer: newOdometer } : v)),
     );
+    this.persistFleet();
   }
 
   addLogEntry(vehicleId: string, entry: { type: string; odometer?: number; cost?: number }): void {
@@ -298,6 +310,46 @@ export class FleetService {
       if (current && entry.odometer > current.odometer) {
         this.updateOdometer(vehicleId, entry.odometer);
       }
+    }
+  }
+
+  private loadStoredFleet(): Vehicle[] {
+    try {
+      const stored = localStorage.getItem(STORAGE_KEY_FLEET);
+      if (stored) {
+        return JSON.parse(stored);
+      }
+    } catch {
+      // Fallback to default
+    }
+    return INITIAL_FLEET;
+  }
+
+  private loadStoredActiveId(): string {
+    try {
+      const stored = localStorage.getItem(STORAGE_KEY_ACTIVE);
+      if (stored) {
+        return stored;
+      }
+    } catch {
+      // Fallback to default
+    }
+    return 'ford-f150';
+  }
+
+  private persistFleet(): void {
+    try {
+      localStorage.setItem(STORAGE_KEY_FLEET, JSON.stringify(this.fleet()));
+    } catch {
+      // LocalStorage quota or unavailable
+    }
+  }
+
+  private persistActiveId(): void {
+    try {
+      localStorage.setItem(STORAGE_KEY_ACTIVE, this.activeVehicleId());
+    } catch {
+      // LocalStorage quota or unavailable
     }
   }
 }

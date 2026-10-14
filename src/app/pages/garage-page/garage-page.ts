@@ -1,4 +1,5 @@
 import { Component, inject } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 import { FleetService } from '@/services/fleet.service';
 import { ToastService } from '@/services/toast.service';
@@ -6,7 +7,7 @@ import { AppIcon } from '@/components/ui/app-icon/app-icon';
 import { VehicleCardComponent } from '@/components/ui/vehicle-card.component';
 
 @Component({
-  imports: [AppIcon, VehicleCardComponent],
+  imports: [RouterLink, AppIcon, VehicleCardComponent],
   selector: 'app-garage-page',
   templateUrl: './garage-page.html',
   host: { class: 'block px-4 space-y-4 pt-2' },

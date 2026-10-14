@@ -2,17 +2,17 @@
   class="w-full max-w-md min-h-screen bg-slate-950 flex flex-col shadow-2xl relative border-x border-slate-900 overflow-x-hidden"
 >
   <!-- App Header with Active Vehicle & Clock -->
-  @if (!isSettingsPage()) {
+  @if (!isFullscreenPage()) {
     <app-header />
   }
 
   <!-- Main Routed Content Area (Scrollable) -->
-  <main class="flex-1 overflow-y-auto" [class]="isSettingsPage() ? 'pb-6' : 'pb-28'">
+  <main class="flex-1 overflow-y-auto" [class]="isFullscreenPage() ? 'pb-6' : 'pb-28'">
     <router-outlet />
   </main>
 
   <!-- Bottom Fixed Navigation with Floating Center FAB -->
-  @if (!isSettingsPage()) {
+  @if (!isFullscreenPage()) {
     <app-bottom-nav />
   }
 

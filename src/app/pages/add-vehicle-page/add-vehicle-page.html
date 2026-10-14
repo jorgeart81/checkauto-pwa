@@ -1,0 +1,530 @@
+<!-- TOP ACTION STRIP (Sub-header) -->
+<header
+  class="bg-slate-900/95 backdrop-blur-md border-b border-slate-800 px-4 py-3 z-30 sticky top-0"
+>
+  <div class="flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <a
+        routerLink="/garage"
+        class="w-8 h-8 rounded-full bg-slate-800/90 hover:bg-slate-750 text-slate-300 flex items-center justify-center border border-slate-700/80 active:scale-95 transition-all"
+        title="Volver al Garaje"
+      >
+        <app-icon name="arrow-right" [size]="16" class="rotate-180" />
+      </a>
+      <div>
+        <span
+          class="text-[10px] font-mono tracking-wider uppercase text-indigo-400 font-semibold block"
+        >
+          Nueva Entrada
+        </span>
+        <h1 class="text-sm font-bold text-white leading-tight">Añadir al Garaje</h1>
+      </div>
+    </div>
+    <span
+      class="px-2.5 py-1 text-[10px] font-mono font-bold bg-indigo-500/10 text-indigo-300 rounded-full"
+    >
+      PASO 1 DE 1
+    </span>
+  </div>
+</header>
+
+<!-- MAIN FORM CONTENT -->
+<main class="flex-1 px-4 py-4 space-y-4">
+  <form (submit)="handleSaveVehicle($event)" class="space-y-4">
+    <!-- 1. VEHICLE TYPE SELECTOR CHIPS -->
+    <div class="space-y-2">
+      <div class="flex items-center justify-between px-1">
+        <label class="text-xs font-semibold text-slate-300">Tipo de Carrocería</label>
+        <span class="text-[10px] text-slate-400 font-mono"
+          >{{ selectedTypeLabel() }} Seleccionada</span
+        >
+      </div>
+      <div class="grid grid-cols-3 gap-1.5 p-1 bg-slate-900/80 rounded-2xl border border-slate-800">
+        <!-- Moto -->
+        <button
+          type="button"
+          (click)="selectType('bike')"
+          class="flex flex-col items-center justify-center py-2.5 px-1 rounded-xl transition-all gap-1.5"
+          [class]="
+            selectedType() === 'bike'
+              ? 'bg-indigo-600 text-white font-semibold shadow-sm'
+              : 'text-slate-400 hover:text-white'
+          "
+        >
+          <app-icon name="bike" [size]="20" />
+          <span class="text-[9px] font-medium leading-none">Moto</span>
+        </button>
+
+        <!-- Sedán -->
+        <button
+          type="button"
+          (click)="selectType('sedan')"
+          class="flex flex-col items-center justify-center py-2.5 px-1 rounded-xl transition-all gap-1.5"
+          [class]="
+            selectedType() === 'sedan'
+              ? 'bg-indigo-600 text-white font-semibold shadow-sm'
+              : 'text-slate-400 hover:text-white'
+          "
+        >
+          <app-icon name="car" [size]="20" />
+          <span class="text-[9px] font-medium leading-none">Sedán / Auto</span>
+        </button>
+
+        <!-- Pickup / Truck -->
+        <button
+          type="button"
+          (click)="selectType('truck')"
+          class="flex flex-col items-center justify-center py-2.5 px-1 rounded-xl transition-all gap-1.5"
+          [class]="
+            selectedType() === 'truck'
+              ? 'bg-indigo-600 text-white font-semibold shadow-sm'
+              : 'text-slate-400 hover:text-white'
+          "
+        >
+          <app-icon name="truck" [size]="20" />
+          <span class="text-[9px] font-medium leading-none">Pickup / SUV</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- 2. PHOTO OR AVATAR BANNER -->
+    <div
+      class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-900 via-indigo-950/30 to-slate-900 p-4 shadow-sm border border-slate-800"
+    >
+      <div class="flex items-center gap-4">
+        <div
+          class="relative w-16 h-16 rounded-xl bg-slate-800 flex items-center justify-center overflow-hidden shadow-inner flex-shrink-0 border border-slate-700"
+        >
+          <app-icon [name]="selectedType()" [size]="28" class="text-indigo-400" />
+        </div>
+        <div class="flex-1 min-w-0 space-y-1.5">
+          <div class="flex items-center justify-between">
+            <span class="text-[10px] font-mono uppercase tracking-widest text-slate-400"
+              >Distintivo Visual</span
+            >
+          </div>
+          <!-- Color Picker Pills -->
+          <div class="flex items-center gap-2 pt-0.5">
+            <button
+              type="button"
+              (click)="selectColor('#6366f1')"
+              class="w-5 h-5 rounded-full bg-indigo-500 shadow-sm transition-transform"
+              [class]="
+                selectedColor() === '#6366f1' ? 'ring-2 ring-white scale-110' : 'hover:scale-105'
+              "
+              aria-label="Color Indigo"
+            ></button>
+            <button
+              type="button"
+              (click)="selectColor('#ef4444')"
+              class="w-5 h-5 rounded-full bg-red-500 shadow-sm transition-transform"
+              [class]="
+                selectedColor() === '#ef4444' ? 'ring-2 ring-white scale-110' : 'hover:scale-105'
+              "
+              aria-label="Color Red"
+            ></button>
+            <button
+              type="button"
+              (click)="selectColor('#10b981')"
+              class="w-5 h-5 rounded-full bg-emerald-500 shadow-sm transition-transform"
+              [class]="
+                selectedColor() === '#10b981' ? 'ring-2 ring-white scale-110' : 'hover:scale-105'
+              "
+              aria-label="Color Emerald"
+            ></button>
+            <button
+              type="button"
+              (click)="selectColor('#f59e0b')"
+              class="w-5 h-5 rounded-full bg-amber-500 shadow-sm transition-transform"
+              [class]="
+                selectedColor() === '#f59e0b' ? 'ring-2 ring-white scale-110' : 'hover:scale-105'
+              "
+              aria-label="Color Amber"
+            ></button>
+            <button
+              type="button"
+              (click)="selectColor('#334155')"
+              class="w-5 h-5 rounded-full bg-slate-700 shadow-sm transition-transform"
+              [class]="
+                selectedColor() === '#334155' ? 'ring-2 ring-white scale-110' : 'hover:scale-105'
+              "
+              aria-label="Color Slate"
+            ></button>
+          </div>
+          <p class="text-[10px] text-slate-400 leading-tight">
+            Define el acento visual en tarjetas y reportes.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. IDENTIFICATION / IDENTIDAD -->
+    <div class="bg-slate-900 rounded-2xl p-4 shadow-sm space-y-3.5 border border-slate-800">
+      <div class="flex items-center gap-2">
+        <app-icon name="credit-card" [size]="16" class="text-indigo-400" />
+        <h2 class="text-xs font-bold uppercase tracking-wider text-slate-200">
+          Identificación de la Unidad
+        </h2>
+      </div>
+
+      <!-- Alias -->
+      <div class="space-y-1">
+        <label
+          class="text-xs font-medium text-slate-300 flex items-center justify-between"
+          for="input-alias"
+        >
+          <span>Alias / Nombre Familiar</span>
+          <span class="text-[10px] text-slate-400">Requerido</span>
+        </label>
+        <input
+          id="input-alias"
+          type="text"
+          [value]="alias()"
+          (input)="onAliasChange($event)"
+          placeholder="Ej. Ford F-150 / Corolla Trabajo"
+          required
+          class="w-full bg-slate-950 text-slate-100 text-sm px-3.5 py-2.5 rounded-xl border border-slate-800 focus:outline-none focus:border-indigo-500"
+        />
+      </div>
+
+      <!-- Marca, Modelo & Año -->
+      <div class="grid grid-cols-3 gap-2.5">
+        <div class="col-span-2 space-y-1">
+          <label class="text-xs font-medium text-slate-300" for="input-model">Marca y Modelo</label>
+          <input
+            id="input-model"
+            type="text"
+            [value]="model()"
+            (input)="onModelChange($event)"
+            placeholder="Ej. Ford F-150 Lariat"
+            class="w-full bg-slate-950 text-slate-100 text-sm px-3.5 py-2.5 rounded-xl border border-slate-800 focus:outline-none focus:border-indigo-500"
+          />
+        </div>
+        <div class="space-y-1">
+          <label class="text-xs font-medium text-slate-300" for="input-year">Año</label>
+          <input
+            id="input-year"
+            type="number"
+            min="1970"
+            max="2030"
+            [value]="year()"
+            (input)="onYearChange($event)"
+            class="w-full bg-slate-950 text-slate-100 font-mono text-sm px-3 py-2.5 rounded-xl border border-slate-800 text-center focus:outline-none focus:border-indigo-500"
+          />
+        </div>
+      </div>
+
+      <!-- Placa & VIN Scan -->
+      <div class="grid grid-cols-2 gap-2.5">
+        <div class="space-y-1">
+          <label class="text-xs font-medium text-slate-300" for="input-plate">
+            Matrícula / Placa
+          </label>
+          <input
+            id="input-plate"
+            type="text"
+            [value]="plate()"
+            (input)="onPlateChange($event)"
+            placeholder="ABC-123"
+            required
+            class="w-full bg-slate-950 text-amber-300 font-mono font-bold tracking-wider text-sm px-3.5 py-2.5 rounded-xl border border-slate-800 uppercase focus:outline-none focus:border-indigo-500"
+          />
+        </div>
+        <div class="space-y-1">
+          <label
+            class="text-xs font-medium text-slate-300 flex items-center justify-between"
+            for="input-vin"
+          >
+            <span>Chasis / VIN</span>
+            <span class="text-[9px] text-slate-400">Opcional</span>
+          </label>
+          <div class="relative">
+            <input
+              id="input-vin"
+              type="text"
+              [value]="vin()"
+              (input)="onVinChange($event)"
+              placeholder="1FTFW1E..."
+              class="w-full bg-slate-950 text-slate-200 font-mono text-xs px-3 py-2.5 pr-8 rounded-xl border border-slate-800 uppercase focus:outline-none focus:border-indigo-500"
+            />
+            <button
+              type="button"
+              (click)="mockScanVin()"
+              class="absolute right-2 top-2.5 text-indigo-400 hover:text-indigo-300 active:scale-95"
+              title="Escanear VIN"
+            >
+              <app-icon name="sparkles" [size]="14" />
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. METRICS & ODOMETER -->
+    <div class="bg-slate-900 rounded-2xl p-4 shadow-sm space-y-4 border border-slate-800">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <app-icon name="gauge" [size]="16" class="text-emerald-400" />
+          <h2 class="text-xs font-bold uppercase tracking-wider text-slate-200">
+            Métricas & Odómetro
+          </h2>
+        </div>
+        <span
+          class="text-[9px] font-mono text-emerald-400 bg-emerald-950/60 px-2 py-0.5 rounded-full border border-emerald-500/20"
+        >
+          Doble Escala
+        </span>
+      </div>
+
+      <!-- Segmented Control: Origen -->
+      <div class="space-y-1.5">
+        <label class="text-xs font-medium text-slate-300">Origen de Fabricación / Mercado</label>
+        <div class="grid grid-cols-2 p-1 bg-slate-950 rounded-xl gap-1 border border-slate-850">
+          <button
+            type="button"
+            (click)="setOrigin('local')"
+            class="py-2 text-xs font-semibold rounded-lg transition-all flex items-center justify-center gap-1.5"
+            [class]="
+              origin() === 'local'
+                ? 'bg-indigo-600 text-white shadow-sm'
+                : 'text-slate-400 hover:text-white'
+            "
+          >
+            <span>Nacional / Local</span>
+          </button>
+          <button
+            type="button"
+            (click)="setOrigin('import')"
+            class="py-2 text-xs font-semibold rounded-lg transition-all flex items-center justify-center gap-1.5"
+            [class]="
+              origin() === 'import'
+                ? 'bg-indigo-600 text-white shadow-sm'
+                : 'text-slate-400 hover:text-white'
+            "
+          >
+            <span>Importado (USA / UK)</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Segmented Control: Unidad Odómetro -->
+      <div class="space-y-1.5">
+        <div class="flex items-center justify-between">
+          <label class="text-xs font-medium text-slate-300">Unidad Base del Tablero</label>
+          <span class="text-[10px] text-indigo-400 font-mono">
+            Tablero en {{ unit() === 'mi' ? 'Millas nativas' : 'Kilómetros nativos' }}
+          </span>
+        </div>
+        <div class="grid grid-cols-2 p-1 bg-slate-950 rounded-xl gap-1 border border-slate-850">
+          <button
+            type="button"
+            (click)="setUnit('mi')"
+            class="py-2 text-xs font-bold rounded-lg transition-all flex items-center justify-center gap-2"
+            [class]="
+              unit() === 'mi'
+                ? 'bg-indigo-600 text-white shadow-sm'
+                : 'text-slate-400 hover:text-white'
+            "
+          >
+            <span>Millas (mi)</span>
+            <span class="text-[9px] px-1.5 py-0.2 rounded bg-indigo-800 text-indigo-200 font-mono"
+              >USA</span
+            >
+          </button>
+          <button
+            type="button"
+            (click)="setUnit('km')"
+            class="py-2 text-xs font-bold rounded-lg transition-all flex items-center justify-center gap-2"
+            [class]="
+              unit() === 'km'
+                ? 'bg-indigo-600 text-white shadow-sm'
+                : 'text-slate-400 hover:text-white'
+            "
+          >
+            <span>Kilómetros (km)</span>
+            <span class="text-[9px] px-1.5 py-0.2 rounded bg-slate-800 text-slate-300 font-mono"
+              >LATAM/EU</span
+            >
+          </button>
+        </div>
+      </div>
+
+      <!-- Odómetro Inicial & Conversión Espejo -->
+      <div class="p-3 bg-slate-950 rounded-xl space-y-2 border border-slate-850">
+        <div class="flex items-center justify-between">
+          <label class="text-xs font-medium text-slate-300" for="input-odometer">
+            Lectura Actual del Tablero
+          </label>
+          <span class="text-[10px] font-mono text-slate-400">{{ mirrorOdometerPreview() }}</span>
+        </div>
+        <div class="relative">
+          <input
+            id="input-odometer"
+            type="number"
+            [value]="odometer()"
+            (input)="onOdometerChange($event)"
+            placeholder="54200"
+            required
+            class="w-full bg-slate-900 text-white font-mono text-xl font-bold px-3.5 py-2.5 rounded-xl border border-slate-800 focus:outline-none focus:border-indigo-500"
+          />
+          <span
+            class="absolute right-3.5 top-3 text-xs font-mono font-bold text-indigo-400 uppercase tracking-wider"
+          >
+            {{ unit() }}
+          </span>
+        </div>
+        <p class="text-[10px] text-slate-500 leading-normal">
+          AutoBitácora preservará la escala nativa del odómetro para los intervalos del manual de
+          fábrica.
+        </p>
+      </div>
+    </div>
+
+    <!-- 5. MOTORIZATION & FUEL -->
+    <div class="bg-slate-900 rounded-2xl p-4 shadow-sm space-y-3.5 border border-slate-800">
+      <div class="flex items-center gap-2">
+        <app-icon name="fuel" [size]="16" class="text-amber-400" />
+        <h2 class="text-xs font-bold uppercase tracking-wider text-slate-200">
+          Motorización & Combustible
+        </h2>
+      </div>
+
+      <!-- Tipo de Motor -->
+      <div class="space-y-1">
+        <label class="text-xs font-medium text-slate-300" for="select-fuel"
+          >Fuente de Propulsión Principal</label
+        >
+        <select
+          id="select-fuel"
+          [value]="fuelType()"
+          (change)="onFuelTypeChange($event)"
+          class="w-full bg-slate-950 text-slate-200 text-sm px-3.5 py-2.5 rounded-xl border border-slate-800 focus:outline-none focus:border-indigo-500"
+        >
+          <option value="Gasolina Regular">Gasolina Regular (90 / 87 Oct)</option>
+          <option value="Gasolina Premium">Gasolina Premium (95 - 98 Oct)</option>
+          <option value="Diésel">Diésel (DB5 S-50)</option>
+          <option value="Bi-combustible GNV">Bi-combustible GNV / Gasolina</option>
+          <option value="Bi-combustible GLP">Bi-combustible GLP / Gasolina</option>
+          <option value="Híbrido">Híbrido Autorrecargable (HEV/PHEV)</option>
+          <option value="100% Eléctrico">100% Eléctrico (EV / kWh)</option>
+        </select>
+      </div>
+
+      <!-- Capacidad Tanque & Rendimiento -->
+      <div class="grid grid-cols-2 gap-2.5">
+        <div class="space-y-1">
+          <label class="text-xs font-medium text-slate-300" for="input-tank-size"
+            >Capacidad de Tanque</label
+          >
+          <div class="relative">
+            <input
+              id="input-tank-size"
+              type="number"
+              step="0.1"
+              [value]="tankCapacity()"
+              (input)="onTankCapacityChange($event)"
+              placeholder="23.5"
+              class="w-full bg-slate-950 text-slate-200 font-mono text-sm px-3.5 py-2 rounded-xl border border-slate-800 focus:outline-none focus:border-indigo-500"
+            />
+            <span class="absolute right-3 top-2 text-xs font-mono text-slate-400">
+              {{ unit() === 'mi' ? 'gal' : 'L' }}
+            </span>
+          </div>
+        </div>
+
+        <div class="space-y-1">
+          <label class="text-xs font-medium text-slate-300" for="input-est-consumption"
+            >Rendimiento Estimado</label
+          >
+          <div class="relative">
+            <input
+              id="input-est-consumption"
+              type="number"
+              step="0.1"
+              [value]="estEfficiency()"
+              (input)="onEstEfficiencyChange($event)"
+              placeholder="22.0"
+              class="w-full bg-slate-950 text-slate-200 font-mono text-sm px-3.5 py-2 rounded-xl border border-slate-800 focus:outline-none focus:border-indigo-500"
+            />
+            <span class="absolute right-3 top-2 text-xs font-mono text-slate-400">
+              {{ unit() === 'mi' ? 'MPG' : 'km/L' }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6. INITIAL REMINDERS -->
+    <div class="bg-slate-900 rounded-2xl p-4 shadow-sm space-y-3 border border-slate-800">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <app-icon name="bell-ring" [size]="16" class="text-indigo-400" />
+          <h2 class="text-xs font-bold uppercase tracking-wider text-slate-200">
+            Alertas de Arranque
+          </h2>
+        </div>
+        <span class="text-[10px] text-slate-400 font-mono">Evita multas</span>
+      </div>
+
+      <!-- SOAT Date -->
+      <div class="p-3 bg-slate-950 rounded-xl space-y-1.5 border border-slate-850">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-medium text-slate-200 flex items-center gap-1.5">
+            <app-icon name="shield-check" [size]="14" class="text-emerald-400" />
+            Fecha de Vencimiento SOAT
+          </span>
+          <span class="text-[9px] font-mono text-amber-400">Vital</span>
+        </div>
+        <input
+          id="input-soat-date"
+          type="date"
+          [value]="soatExpiry()"
+          (input)="onSoatExpiryChange($event)"
+          class="w-full bg-slate-900 text-slate-200 text-xs px-3 py-2 rounded-lg border border-slate-800 focus:outline-none focus:border-indigo-500"
+        />
+      </div>
+
+      <!-- Last Oil Service -->
+      <div class="p-3 bg-slate-950 rounded-xl space-y-1.5 border border-slate-850">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-medium text-slate-200 flex items-center gap-1.5">
+            <app-icon name="wrench" [size]="14" class="text-indigo-400" />
+            Último Cambio de Aceite
+          </span>
+          <span class="text-[10px] font-mono text-slate-400">en {{ unit() }}</span>
+        </div>
+        <div class="relative">
+          <input
+            id="input-last-oil"
+            type="number"
+            [value]="lastOilService()"
+            (input)="onLastOilChange($event)"
+            placeholder="50000"
+            class="w-full bg-slate-900 text-slate-200 font-mono text-xs px-3 py-2 rounded-lg border border-slate-800 focus:outline-none focus:border-indigo-500"
+          />
+          <span class="absolute right-3 top-2 text-[10px] font-mono text-slate-400">{{
+            unit()
+          }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 7. SUBMIT & CANCEL BUTTONS -->
+    <div class="space-y-2.5 pt-2">
+      <button
+        type="submit"
+        class="w-full py-3.5 bg-indigo-600 hover:bg-indigo-500 active:scale-[0.98] text-white font-bold text-sm rounded-xl shadow-lg shadow-indigo-600/30 flex items-center justify-center gap-2 transition-all"
+      >
+        <app-icon name="check" [size]="16" />
+        <span>Guardar Vehículo en Garaje</span>
+      </button>
+
+      <a
+        routerLink="/garage"
+        class="w-full py-2.5 bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-slate-200 text-xs font-semibold rounded-xl transition-colors flex items-center justify-center border border-slate-800"
+      >
+        Cancelar y Volver al Garaje
+      </a>
+    </div>
+  </form>
+</main>

@@ -12,6 +12,11 @@ export const routes: Routes = [
     component: HomePage,
   },
   {
+    path: 'garage/add',
+    loadComponent: () =>
+      import('./pages/add-vehicle-page/add-vehicle-page').then((m) => m.AddVehiclePage),
+  },
+  {
     path: 'garage',
     loadComponent: () => import('./pages/garage-page/garage-page').then((m) => m.GaragePage),
   },

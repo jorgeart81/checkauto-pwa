@@ -37,5 +37,8 @@ export class App {
     { initialValue: this.router.url },
   );
 
-  protected isSettingsPage = computed(() => this.currentUrl().includes('/settings'));
+  protected isFullscreenPage = computed(() => {
+    const url = this.currentUrl();
+    return url.includes('/settings') || url.includes('/garage/add');
+  });
 }
