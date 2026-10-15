@@ -1,10 +1,11 @@
 import { Component, inject, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
+import { AppRoute } from '@/app.routes';
 import { AppIcon } from '@/components/ui/app-icon/app-icon';
 import { UiBadgeComponent } from '@/components/ui/ui-badge.component';
 import { FleetService } from '@/services/fleet.service';
 import { ModalService } from '@/services/modal.service';
-import { RouterLink } from '@angular/router';
 import { AppBarContainer } from '../app-bar-container';
 
 @Component({
@@ -17,6 +18,7 @@ export class AppBar {
   private fleetService = inject(FleetService);
   protected modalService = inject(ModalService);
   protected vehicle = this.fleetService.activeVehicle;
+  protected readonly routes = AppRoute;
 
   protected currentTime = signal<string>('09:41');
 

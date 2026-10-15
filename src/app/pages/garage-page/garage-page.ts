@@ -1,10 +1,11 @@
 import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
-import { FleetService } from '@/services/fleet.service';
-import { ToastService } from '@/services/toast.service';
+import { AppRoute } from '@/app.routes';
 import { AppIcon } from '@/components/ui/app-icon/app-icon';
 import { VehicleCardComponent } from '@/components/ui/vehicle-card.component';
+import { FleetService } from '@/services/fleet.service';
+import { ToastService } from '@/services/toast.service';
 
 @Component({
   imports: [RouterLink, AppIcon, VehicleCardComponent],
@@ -16,6 +17,7 @@ export class GaragePage {
   private fleetService = inject(FleetService);
   private toastService = inject(ToastService);
 
+  protected readonly routes = AppRoute;
   protected fleet = this.fleetService.fleet;
   protected activeId = this.fleetService.activeVehicleId;
   protected stats = this.fleetService.fleetStats;

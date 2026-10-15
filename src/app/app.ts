@@ -1,8 +1,9 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { filter, map } from 'rxjs';
 
+import { RouteData } from './app.routes';
 import { AppBar } from './components/layout/app-bar/app-bar';
 import { BottomNavComponent } from './components/layout/bottom-nav.component';
 import { QuickEntryModalComponent } from './components/modals/quick-entry-modal.component';
@@ -29,16 +30,21 @@ export class App {
   private router = inject(Router);
   protected modalService = inject(ModalService);
 
-  private currentUrl = toSignal(
+  protected isFullscreenPage = toSignal(
     this.router.events.pipe(
       filter((e): e is NavigationEnd => e instanceof NavigationEnd),
-      map((e) => e.urlAfterRedirects),
+      map(() => this.readFullscreenFlag()),
     ),
-    { initialValue: this.router.url },
+    { initialValue: this.readFullscreenFlag() },
   );
 
-  protected isFullscreenPage = computed(() => {
-    const url = this.currentUrl();
-    return url.includes('/settings') || url.includes('/garage/add');
-  });
+  private readFullscreenFlag(): boolean {
+    let route = this.router.routerState.snapshot.root;
+
+    while (route.firstChild) {
+      route = route.firstChild;
+    }
+
+    return (route.data as RouteData)?.isFullscreen ?? false;
+  }
 }

@@ -1,6 +1,7 @@
 import { Component, computed, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
+import { AppRoute } from '@/app.routes';
 import { AppIcon } from '@/components/ui/app-icon/app-icon';
 import type {
   CurrencyCode,
@@ -24,6 +25,8 @@ export class SettingsPage {
   private settingsService = inject(SettingsService);
   private fleetService = inject(FleetService);
   private toastService = inject(ToastService);
+
+  protected readonly routes = AppRoute;
 
   protected settings = this.settingsService.settings;
   protected vehicle = this.fleetService.activeVehicle;

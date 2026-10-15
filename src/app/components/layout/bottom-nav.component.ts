@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { AppRoute } from '../../app.routes';
 import { ModalService } from '../../services/modal.service';
 import { AppIcon } from '../ui/app-icon/app-icon';
 
@@ -27,7 +28,7 @@ import { AppIcon } from '../ui/app-icon/app-icon';
       <div class="grid grid-cols-5 items-center">
         <!-- Tab 1: Home -->
         <a
-          routerLink="/home"
+          [routerLink]="routes.Home"
           routerLinkActive="text-indigo-400 font-bold"
           class="flex flex-col items-center gap-1 transition-colors py-1 text-slate-400 hover:text-slate-200 font-medium"
         >
@@ -37,7 +38,7 @@ import { AppIcon } from '../ui/app-icon/app-icon';
 
         <!-- Tab 2: Plan -->
         <a
-          routerLink="/plan"
+          [routerLink]="routes.Plan"
           routerLinkActive="text-indigo-400 font-bold"
           class="flex flex-col items-center gap-1 transition-colors py-1 text-slate-400 hover:text-slate-200 font-medium"
         >
@@ -55,7 +56,7 @@ import { AppIcon } from '../ui/app-icon/app-icon';
 
         <!-- Tab 3: Procedures -->
         <a
-          routerLink="/procedures"
+          [routerLink]="routes.Procedures"
           routerLinkActive="text-indigo-400 font-bold"
           class="flex flex-col items-center gap-1 transition-colors py-1 text-slate-400 hover:text-slate-200 font-medium"
         >
@@ -65,7 +66,7 @@ import { AppIcon } from '../ui/app-icon/app-icon';
 
         <!-- Tab 4: Garage -->
         <a
-          routerLink="/garage"
+          [routerLink]="routes.Garage"
           routerLinkActive="text-indigo-400 font-bold"
           class="flex flex-col items-center gap-1 transition-colors py-1 text-slate-400 hover:text-slate-200 font-medium"
         >
@@ -78,4 +79,5 @@ import { AppIcon } from '../ui/app-icon/app-icon';
 })
 export class BottomNavComponent {
   protected modalService = inject(ModalService);
+  protected readonly routes = AppRoute;
 }

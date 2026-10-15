@@ -1,5 +1,6 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
+import { AppRoute } from '@/app.routes';
 import { AppIcon } from '@/components/ui/app-icon/app-icon';
 import { Vehicle, VehicleType } from '@/models/vehicle.model';
 import { FleetService } from '@/services/fleet.service';
@@ -19,6 +20,8 @@ export class AddVehiclePage {
   private fleetService = inject(FleetService);
   private toastService = inject(ToastService);
   private router = inject(Router);
+
+  protected readonly routes = AppRoute;
 
   // Form State Signals
   protected selectedType = signal<BodyType>('truck');
@@ -234,6 +237,6 @@ export class AddVehiclePage {
 
     this.fleetService.addVehicle(newVehicle);
     this.toastService.show(`Vehículo "${aliasVal}" guardado en el Garaje`, 'success');
-    this.router.navigate(['/garage']);
+    this.router.navigateByUrl(this.routes.Garage);
   }
 }

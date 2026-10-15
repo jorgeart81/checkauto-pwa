@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { provideRouter } from '@angular/router';
+import { provideRouter, Router } from '@angular/router';
 import { FleetRepository } from '@/core/repositories/fleet.repository';
 import { LocalStorageFleetRepository } from '@/data/repositories/local-storage-fleet.repository';
 import { App } from './app';
@@ -29,5 +29,16 @@ describe('App', () => {
     expect(compiled.querySelector('app-bar')).toBeTruthy();
     expect(compiled.querySelector('app-bottom-nav')).toBeTruthy();
     expect(compiled.querySelector('router-outlet')).toBeTruthy();
+  });
+
+  it('should hide app-bar and bottom navigation on fullscreen routes', async () => {
+    const fixture = TestBed.createComponent(App);
+    const router = TestBed.inject(Router);
+    await router.navigateByUrl('/settings');
+    await fixture.whenStable();
+    fixture.detectChanges();
+    const compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.querySelector('app-bar')).toBeNull();
+    expect(compiled.querySelector('app-bottom-nav')).toBeNull();
   });
 });
