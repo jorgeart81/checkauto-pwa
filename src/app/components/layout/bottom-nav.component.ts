@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AppRoute } from '../../app.routes';
+import { FleetService } from '../../services/fleet.service';
 import { ModalService } from '../../services/modal.service';
 import { AppIcon } from '../ui/app-icon/app-icon';
 
@@ -12,7 +13,7 @@ import { AppIcon } from '../ui/app-icon/app-icon';
     <div class="fixed bottom-20 left-1/2 -translate-x-1/2 z-40">
       <button
         type="button"
-        (click)="modalService.openEntryModal()"
+        (click)="onFabClick()"
         class="w-14 h-14 rounded-full bg-gradient-to-tr from-indigo-700 to-indigo-500 hover:from-indigo-600 hover:to-indigo-400 active:scale-95 text-white flex items-center justify-center shadow-2xl border-4 border-slate-950 transition-all duration-150"
         aria-label="Register Log Entry"
       >
@@ -78,6 +79,16 @@ import { AppIcon } from '../ui/app-icon/app-icon';
   `,
 })
 export class BottomNavComponent {
+  private router = inject(Router);
+  private fleetService = inject(FleetService);
   protected modalService = inject(ModalService);
   protected readonly routes = AppRoute;
+
+  protected onFabClick(): void {
+    if (!this.fleetService.hasVehicles()) {
+      this.router.navigateByUrl(this.routes.GarageAdd);
+      return;
+    }
+    this.modalService.openEntryModal();
+  }
 }

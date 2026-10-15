@@ -1,38 +1,55 @@
 <app-bar-container>
   <div class="flex items-center justify-between">
-    <!-- Vehicle Picker Trigger Button -->
-    <button
-      type="button"
-      (click)="modalService.openVehiclePicker()"
-      class="flex items-center gap-2.5 bg-slate-800 hover:bg-slate-750 active:scale-95 transition-all text-left px-3 py-1.5 rounded-full border border-slate-700/80 shadow-sm max-w-[290px]"
-    >
-      <div
-        class="w-7 h-7 rounded-full bg-indigo-500/10 text-indigo-400 flex items-center justify-center flex-shrink-0 border border-indigo-500/20"
+    <!-- Left: Vehicle Picker Trigger OR Empty State Brand -->
+    @if (vehicle(); as v) {
+      <button
+        type="button"
+        (click)="modalService.openVehiclePicker()"
+        class="flex items-center gap-2.5 bg-slate-800 hover:bg-slate-750 active:scale-95 transition-all text-left px-3 py-1.5 rounded-full border border-slate-700/80 shadow-sm max-w-[290px]"
       >
-        <app-icon [name]="vehicle().type" [size]="14" />
-      </div>
+        <div
+          class="w-7 h-7 rounded-full bg-indigo-500/10 text-indigo-400 flex items-center justify-center flex-shrink-0 border border-indigo-500/20"
+        >
+          <app-icon [name]="v.type" [size]="14" />
+        </div>
 
-      <div class="min-w-0 flex-1">
-        <div class="flex items-center gap-1.5 min-w-0 flex-nowrap">
-          <span class="font-bold text-slate-100 text-xs truncate">
-            {{ vehicle().alias }}
+        <div class="min-w-0 flex-1">
+          <div class="flex items-center gap-1.5 min-w-0 flex-nowrap">
+            <span class="font-bold text-slate-100 text-xs truncate">
+              {{ v.alias }}
+            </span>
+            <app-ui-badge
+              [variant]="badgeVariant()"
+              customClass="text-[9px] px-1.5 py-0 flex-shrink-0 whitespace-nowrap leading-none"
+            >
+              {{ v.statusBadge }}
+            </app-ui-badge>
+          </div>
+          <div class="flex items-center gap-1.5 text-[10px] text-slate-400 font-mono">
+            <span class="text-slate-300 font-medium">{{ v.plate }}</span>
+            <span>•</span>
+            <span class="truncate">{{ v.fuelType }}</span>
+          </div>
+        </div>
+
+        <app-icon name="chevron-down" [size]="14" class="text-slate-400 ml-auto flex-shrink-0" />
+      </button>
+    } @else {
+      <!-- Brand & Quick Add CTA when no vehicle registered -->
+      <div class="flex items-center gap-2">
+        <div
+          class="w-8 h-8 rounded-xl bg-indigo-600/20 text-indigo-400 flex items-center justify-center border border-indigo-500/30"
+        >
+          <app-icon name="car" [size]="18" />
+        </div>
+        <div class="leading-none">
+          <span class="text-xs font-black tracking-wider text-white uppercase font-mono block">
+            CheckAuto
           </span>
-          <app-ui-badge
-            [variant]="badgeVariant()"
-            customClass="text-[9px] px-1.5 py-0 flex-shrink-0 whitespace-nowrap leading-none"
-          >
-            {{ vehicle().statusBadge }}
-          </app-ui-badge>
-        </div>
-        <div class="flex items-center gap-1.5 text-[10px] text-slate-400 font-mono">
-          <span class="text-slate-300 font-medium">{{ vehicle().plate }}</span>
-          <span>•</span>
-          <span class="truncate">{{ vehicle().fuelType }}</span>
+          <span class="text-[9px] text-slate-400 font-medium">Garaje sin unidades</span>
         </div>
       </div>
-
-      <app-icon name="chevron-down" [size]="14" class="text-slate-400 ml-auto flex-shrink-0" />
-    </button>
+    }
 
     <!-- Status / Clock and Settings Shortcut -->
     <div class="flex items-center gap-2">

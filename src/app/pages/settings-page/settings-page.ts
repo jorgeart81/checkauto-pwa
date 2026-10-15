@@ -33,7 +33,9 @@ export class SettingsPage {
 
   // Real-time conversion preview calculation
   protected conversionPreview = computed(() => {
-    const odo = this.vehicle().odometer;
+    const v = this.vehicle();
+    if (!v) return 'Sin datos de odómetro activo';
+    const odo = v.odometer;
     const km = Math.round(odo * 1.60934);
     return `${odo.toLocaleString()} mi ≈ ${km.toLocaleString()} km`;
   });
@@ -102,6 +104,16 @@ export class SettingsPage {
 
   protected syncCache(): void {
     this.toastService.show('Caché PWA sincronizado con éxito', 'success');
+  }
+
+  protected async clearAllData(): Promise<void> {
+    await this.fleetService.clearAllVehicles();
+    this.toastService.show('Todos los datos del garaje han sido eliminados', 'info');
+  }
+
+  protected async restoreDemoData(): Promise<void> {
+    await this.fleetService.restoreDemoData();
+    this.toastService.show('Datos de demostración restaurados exitosamente', 'success');
   }
 
   protected saveAllPreferences(): void {

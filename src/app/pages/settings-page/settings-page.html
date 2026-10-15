@@ -560,6 +560,47 @@
         </div>
         <app-icon name="chevron-right" [size]="16" class="text-slate-500" />
       </button>
+      <!-- Restore Demo Fleet Button -->
+      <button
+        type="button"
+        (click)="restoreDemoData()"
+        class="w-full py-2.5 px-3 bg-slate-950 hover:bg-slate-800/80 border border-slate-800 rounded-xl text-left flex items-center justify-between transition-all active:scale-[0.99]"
+      >
+        <div class="flex items-center gap-2.5">
+          <div
+            class="w-8 h-8 rounded-lg bg-indigo-500/15 text-indigo-400 flex items-center justify-center flex-shrink-0"
+          >
+            <app-icon name="sparkles" [size]="16" />
+          </div>
+          <div>
+            <span class="text-xs font-bold text-slate-200 block">Restaurar Vehículos Demo</span>
+            <span class="text-[10px] text-slate-400">Recargar las 3 unidades de muestra</span>
+          </div>
+        </div>
+        <app-icon name="chevron-right" [size]="16" class="text-slate-500" />
+      </button>
+
+      <!-- Clear All Data Button -->
+      <button
+        type="button"
+        (click)="clearAllData()"
+        class="w-full py-2.5 px-3 bg-red-950/20 hover:bg-red-950/40 border border-red-900/40 rounded-xl text-left flex items-center justify-between transition-all active:scale-[0.99]"
+      >
+        <div class="flex items-center gap-2.5">
+          <div
+            class="w-8 h-8 rounded-lg bg-red-500/15 text-red-400 flex items-center justify-center flex-shrink-0"
+          >
+            <app-icon name="alert-triangle" [size]="16" />
+          </div>
+          <div>
+            <span class="text-xs font-bold text-red-400 block">Eliminar Todos los Vehículos</span>
+            <span class="text-[10px] text-slate-400"
+              >Borrar datos locales y probar garaje vacío</span
+            >
+          </div>
+        </div>
+        <app-icon name="chevron-right" [size]="16" class="text-red-500/60" />
+      </button>
     </div>
 
     <!-- PWA Local Storage Indicator -->
@@ -569,7 +610,7 @@
       <div class="flex items-center gap-2">
         <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
         <span class="text-[10px] text-slate-400 font-mono"
-          >12.4 MB en caché • Modo Offline Activo</span
+          >Almacenamiento Local • Modo Offline Activo</span
         >
       </div>
       <button

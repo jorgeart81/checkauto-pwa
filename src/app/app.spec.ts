@@ -41,4 +41,15 @@ describe('App', () => {
     expect(compiled.querySelector('app-bar')).toBeNull();
     expect(compiled.querySelector('app-bottom-nav')).toBeNull();
   });
+
+  it('should render gracefully without errors when fleet is empty', async () => {
+    const fleetRepo = TestBed.inject(FleetRepository);
+    await fleetRepo.clearFleet();
+    const fixture = TestBed.createComponent(App);
+    await fixture.whenStable();
+    fixture.detectChanges();
+    const compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled).toBeTruthy();
+    expect(compiled.querySelector('app-bar')).toBeTruthy();
+  });
 });

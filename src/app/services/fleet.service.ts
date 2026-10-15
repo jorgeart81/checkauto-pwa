@@ -107,12 +107,17 @@ export class FleetService {
   private repository = inject(FleetRepository);
 
   readonly fleet = signal<Vehicle[]>([]);
-  readonly activeVehicleId = signal<string>('ford-f150');
+  readonly activeVehicleId = signal<string>('');
   readonly documents = signal<DocumentItem[]>(INITIAL_DOCUMENTS);
+  readonly isHydrated = signal<boolean>(false);
 
-  readonly activeVehicle = computed(() => {
+  readonly hasVehicles = computed(() => this.fleet().length > 0);
+
+  readonly activeVehicle = computed<Vehicle | null>(() => {
+    const list = this.fleet();
+    if (list.length === 0) return null;
     const id = this.activeVehicleId();
-    return this.fleet().find((v) => v.id === id) || this.fleet()[0];
+    return list.find((v) => v.id === id) ?? list[0] ?? null;
   });
 
   readonly altOdometer = computed(() => {
@@ -173,16 +178,34 @@ export class FleetService {
     }
   }
 
+  async clearAllVehicles(): Promise<void> {
+    await this.repository.clearFleet();
+    this.fleet.set([]);
+    this.activeVehicleId.set('');
+  }
+
+  async restoreDemoData(): Promise<void> {
+    const restored = await this.repository.restoreDemoFleet();
+    this.fleet.set(restored);
+    this.activeVehicleId.set(restored[0]?.id ?? '');
+  }
+
   private async initFleet(): Promise<void> {
-    const [vehicles, activeId] = await Promise.all([
-      this.repository.getVehicles(),
-      this.repository.getActiveVehicleId(),
-    ]);
-    this.fleet.set(vehicles);
-    if (vehicles.some((v) => v.id === activeId)) {
-      this.activeVehicleId.set(activeId);
-    } else if (vehicles.length > 0) {
-      this.activeVehicleId.set(vehicles[0].id);
+    try {
+      const [vehicles, activeId] = await Promise.all([
+        this.repository.getVehicles(),
+        this.repository.getActiveVehicleId(),
+      ]);
+      this.fleet.set(vehicles);
+      if (vehicles.some((v) => v.id === activeId)) {
+        this.activeVehicleId.set(activeId);
+      } else if (vehicles.length > 0) {
+        this.activeVehicleId.set(vehicles[0].id);
+      } else {
+        this.activeVehicleId.set('');
+      }
+    } finally {
+      this.isHydrated.set(true);
     }
   }
 }

@@ -1,12 +1,14 @@
 import { Component, computed, inject, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
-import { FleetService } from '@/services/fleet.service';
-import { ToastService } from '@/services/toast.service';
+import { AppRoute } from '@/app.routes';
 import { AppIcon } from '@/components/ui/app-icon/app-icon';
 import { UiBadgeComponent } from '@/components/ui/ui-badge.component';
+import { FleetService } from '@/services/fleet.service';
+import { ToastService } from '@/services/toast.service';
 
 @Component({
-  imports: [AppIcon, UiBadgeComponent],
+  imports: [AppIcon, UiBadgeComponent, RouterLink],
   selector: 'app-procedures-page',
   templateUrl: './procedures-page.html',
   host: { class: 'block px-4 space-y-4 pt-2' },
@@ -14,6 +16,9 @@ import { UiBadgeComponent } from '@/components/ui/ui-badge.component';
 export class ProceduresPage {
   private fleetService = inject(FleetService);
   private toastService = inject(ToastService);
+
+  protected readonly routes = AppRoute;
+  protected hasVehicles = this.fleetService.hasVehicles;
 
   protected filterMode = signal<'active' | 'all'>('active');
 

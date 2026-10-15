@@ -21,7 +21,7 @@ import { AppIcon } from '../ui/app-icon/app-icon';
             Lectura Previa
           </span>
           <span class="text-xl font-mono font-bold text-slate-300">
-            {{ vehicle().odometer.toLocaleString() }} {{ vehicle().unit }}
+            {{ (vehicle()?.odometer ?? 0).toLocaleString() }} {{ vehicle()?.unit ?? 'km' }}
           </span>
         </div>
 
@@ -36,7 +36,7 @@ import { AppIcon } from '../ui/app-icon/app-icon';
           <span
             class="absolute right-4 top-4 text-xs font-mono font-bold text-indigo-400 uppercase"
           >
-            {{ vehicle().unit }}
+            {{ vehicle()?.unit ?? 'km' }}
           </span>
         </div>
 
@@ -90,7 +90,8 @@ export class QuickOdometerModalComponent {
   constructor() {
     effect(() => {
       if (this.isOpen()) {
-        this.inputValue.set(this.vehicle().odometer + 50);
+        const v = this.vehicle();
+        this.inputValue.set(v ? v.odometer + 50 : 0);
       }
     });
   }
@@ -108,12 +109,10 @@ export class QuickOdometerModalComponent {
 
   protected save(): void {
     const val = this.inputValue();
-    if (val && val > 0) {
-      this.fleetService.updateOdometer(this.vehicle().id, val);
-      this.toastService.show(
-        `Odómetro actualizado a ${val.toLocaleString()} ${this.vehicle().unit}`,
-        'success',
-      );
+    const v = this.vehicle();
+    if (val && val > 0 && v) {
+      this.fleetService.updateOdometer(v.id, val);
+      this.toastService.show(`Odómetro actualizado a ${val.toLocaleString()} ${v.unit}`, 'success');
       this.close.emit();
     }
   }

@@ -25,4 +25,14 @@ export abstract class FleetRepository {
    * Sets and persists the active vehicle ID.
    */
   abstract setActiveVehicleId(vehicleId: string): Promise<void>;
+
+  /**
+   * Clears all vehicles from persistent storage.
+   */
+  abstract clearFleet(): Promise<void>;
+
+  /**
+   * Restores initial demo fleet into persistent storage.
+   */
+  abstract restoreDemoFleet(): Promise<Vehicle[]>;
 }

@@ -36,7 +36,9 @@ export class AppBar {
 
   protected get badgeVariant(): () => 'critical' | 'warning' | 'optimal' {
     return () => {
-      const lvl = this.vehicle().statusLevel;
+      const current = this.vehicle();
+      if (!current) return 'optimal';
+      const lvl = current.statusLevel;
       if (lvl === 'critical') return 'critical';
       if (lvl === 'warning') return 'warning';
       return 'optimal';

@@ -197,6 +197,21 @@ export class LocalStorageFleetRepository extends FleetRepository {
     }
   }
 
+  async clearFleet(): Promise<void> {
+    try {
+      localStorage.setItem(STORAGE_KEY_FLEET, JSON.stringify([]));
+      localStorage.removeItem(STORAGE_KEY_ACTIVE);
+    } catch {
+      // Ignore
+    }
+  }
+
+  async restoreDemoFleet(): Promise<Vehicle[]> {
+    this.persist(STORAGE_KEY_FLEET, INITIAL_FLEET);
+    this.persist(STORAGE_KEY_ACTIVE, INITIAL_FLEET[0].id);
+    return INITIAL_FLEET;
+  }
+
   private persist<T>(key: string, value: T): void {
     try {
       localStorage.setItem(key, JSON.stringify(value));

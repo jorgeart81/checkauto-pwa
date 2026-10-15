@@ -79,16 +79,16 @@ type EntryCategory = 'combustible' | 'mantenimiento' | 'tramite' | 'odometro';
           class="flex items-center justify-between p-2.5 bg-slate-950 rounded-xl border border-slate-800 text-xs"
         >
           <div class="flex items-center gap-2">
-            <app-icon [name]="vehicle().type" [size]="14" class="text-indigo-400" />
-            <span class="font-bold text-slate-200">{{ vehicle().alias }}</span>
+            <app-icon [name]="vehicle()?.type ?? 'car'" [size]="14" class="text-indigo-400" />
+            <span class="font-bold text-slate-200">{{ vehicle()?.alias ?? 'Sin vehículo' }}</span>
           </div>
-          <span class="font-mono text-slate-400">{{ vehicle().plate }}</span>
+          <span class="font-mono text-slate-400">{{ vehicle()?.plate ?? '---' }}</span>
         </div>
 
         <!-- Odometer Reading Input -->
         <div class="space-y-1">
           <label class="text-xs text-slate-300 font-medium block">
-            Lectura Odómetro ({{ vehicle().unit }})
+            Lectura Odómetro ({{ vehicle()?.unit ?? 'km' }})
           </label>
           <div class="relative">
             <input
@@ -98,7 +98,7 @@ type EntryCategory = 'combustible' | 'mantenimiento' | 'tramite' | 'odometro';
               class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white font-mono focus:outline-none focus:border-indigo-500"
             />
             <span class="absolute right-3 top-2 text-xs font-mono text-slate-400 uppercase">
-              {{ vehicle().unit }}
+              {{ vehicle()?.unit ?? 'km' }}
             </span>
           </div>
         </div>
@@ -235,7 +235,8 @@ export class QuickEntryModalComponent {
   constructor() {
     effect(() => {
       if (this.isOpen()) {
-        this.odoInput.set(this.vehicle().odometer);
+        const v = this.vehicle();
+        this.odoInput.set(v ? v.odometer : 0);
       }
     });
   }
@@ -247,8 +248,9 @@ export class QuickEntryModalComponent {
   protected onSubmit(event: Event): void {
     event.preventDefault();
     const newOdo = this.odoInput();
-    if (newOdo && newOdo > this.vehicle().odometer) {
-      this.fleetService.updateOdometer(this.vehicle().id, newOdo);
+    const v = this.vehicle();
+    if (newOdo && v && newOdo > v.odometer) {
+      this.fleetService.updateOdometer(v.id, newOdo);
     }
     this.toastService.show('Registro guardado exitosamente en AutoBitácora', 'success');
     this.close.emit();
